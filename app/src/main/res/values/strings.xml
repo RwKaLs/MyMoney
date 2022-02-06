@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Доходы и Расходы</string>
+    <string name="balance">Баланс</string>
+    <string name="inc_sum">Сумма доходов за месяц</string>
+    <string name="sum_exp">Сумма расходов за месяц</string>
+    <string name="back_button">Back</string>
+</resources>
