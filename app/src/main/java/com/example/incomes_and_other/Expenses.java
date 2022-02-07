@@ -1,9 +1,10 @@
 package com.example.incomes_and_other;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Expenses extends AppCompatActivity {
 

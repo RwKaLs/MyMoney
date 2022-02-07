@@ -2,23 +2,38 @@ package com.example.incomes_and_other;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     Button toInc;
     Button toExp;
+    SharedPreferences sP;
+    int isIn;
+    private final String ISIN = "ISUSER";
+    String userID = "LALALA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadData();
+        if (getIntent().getStringExtra("USER") != null){
+            userID = getIntent().getStringExtra("USER");
+            Toast.makeText(this, String.valueOf(userID), Toast.LENGTH_LONG).show();
+        } else if (isIn == 0){
+            Intent iLog = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(iLog);
+        }
         setContentView(R.layout.activity_main);
 
-        toInc = (Button) findViewById(R.id.button4);
-        toExp = (Button) findViewById(R.id.button5);
+        toInc = findViewById(R.id.button4);
+        toExp = findViewById(R.id.button5);
 
         @SuppressLint("NonConstantResourceId") View.OnClickListener onClickListener = view -> {
             switch (view.getId()) {
@@ -37,5 +52,8 @@ public class MainActivity extends AppCompatActivity {
         toExp.setOnClickListener(onClickListener);
     }
 
-
+    private void loadData(){
+        sP = getPreferences(MODE_PRIVATE);
+        isIn = sP.getInt(ISIN, 0);
+    }
 }
