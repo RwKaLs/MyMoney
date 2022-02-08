@@ -27,6 +27,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initElements();
+        if (getIntent().getStringExtra("LOGIN") != null){
+            if (getIntent().getStringExtra("PASSWORD") != null){
+                edMail.setText(String.valueOf(getIntent().getStringExtra("LOGIN")));
+                edPassword.setText(String.valueOf(getIntent().getStringExtra("PASSWORD")));
+            }
+        }
         setFirebase();
         if (currentUser != null){
             Intent iToMain = new Intent(LoginActivity.this, MainActivity.class);
@@ -37,18 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             switch (view.getId()){
                 case R.id.sign_in:
                     if (!String.valueOf(edMail.getText()).equals("") && !String.valueOf(edPassword.getText()).equals("")) {
-                        String login = String.valueOf(edMail.getText());
-                        String password = String.valueOf(edPassword.getText());
-                        tv_wrong.setText("Вход...");
-                        mAuth.signInWithEmailAndPassword(login, password);
-                        currentUser = mAuth.getCurrentUser();
-                        if (currentUser != null) {
-                            Intent iToMain = new Intent(LoginActivity.this, MainActivity.class);
-                            iToMain.putExtra("USER", currentUser.getUid());
-                            startActivity(iToMain);
-                        } else {
-                            tv_wrong.setText("Неверный логин или пароль!");
-                        }
+                        signIn();
                     } else {
                         tv_wrong.setText("Поля пустые!");
                     }
@@ -62,9 +57,23 @@ public class LoginActivity extends AppCompatActivity {
         btnIn.setOnClickListener(onclck);
         btnReg.setOnClickListener(onclck);
     }
+    private void signIn(){
+        String login = String.valueOf(edMail.getText());
+        String password = String.valueOf(edPassword.getText());
+        tv_wrong.setText("Вход...");
+        mAuth.signInWithEmailAndPassword(login, password);
+        currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            Intent iToMain = new Intent(LoginActivity.this, MainActivity.class);
+            iToMain.putExtra("USER", currentUser.getUid());
+            startActivity(iToMain);
+        } else {
+            tv_wrong.setText("Неверный логин или пароль!");
+        }
+    }
     private void setFirebase(){
         mAuth = FirebaseAuth.getInstance();
-        // mAuth.signOut(); // for test login
+        mAuth.signOut(); // for test login
         currentUser = mAuth.getCurrentUser();
     }
     private void initElements(){

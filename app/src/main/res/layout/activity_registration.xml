@@ -25,6 +25,7 @@
         android:layout_marginTop="30sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:text=""
         android:ems="15"
         android:inputType="textEmailAddress"
         android:hint="@string/e_mail" />
@@ -37,6 +38,7 @@
         android:layout_marginTop="30sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:text=""
         android:ems="15"
         android:inputType="textPassword"
         android:hint="@string/password" />
