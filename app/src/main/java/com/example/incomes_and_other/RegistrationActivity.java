@@ -16,11 +16,14 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistrationActivity extends AppCompatActivity {
     EditText edMail, edPassword;
     Button btnReg;
     TextView tvInfo;
+    DatabaseReference dbReference;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     @Override
@@ -46,12 +49,12 @@ public class RegistrationActivity extends AppCompatActivity {
                             mAuth.signOut();
                             mAuth.signInWithEmailAndPassword(email, password);
                             currentUser = mAuth.getCurrentUser();
-                            // firebasedatabase
                             while (currentUser == null){
                                 mAuth.signOut();
                                 mAuth.signInWithEmailAndPassword(email, password);
                                 currentUser = mAuth.getCurrentUser();
                             }
+                            dbReference.push().setValue(currentUser.getUid());
                             Intent iToLogin = new Intent(RegistrationActivity.this, LoginActivity.class);
                             iToLogin.putExtra("LOGIN", email);
                             iToLogin.putExtra("PASSWORD", password);
@@ -79,6 +82,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private void setFirebase(){
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        dbReference = FirebaseDatabase.getInstance().getReference();
     }
     public static boolean hasConnection(final Context context)
     {

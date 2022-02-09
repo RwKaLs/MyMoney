@@ -18,9 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button toInc;
-    Button toExp;
-    SharedPreferences sP;
+    Button toInc, toExp, sOut;
+    SharedPreferences isAccount;
     int isIn;
     private final String ISIN = "ISUSER";
     String userID = "LALALA";
@@ -32,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("USER") != null){
             userID = getIntent().getStringExtra("USER");
             Toast.makeText(this, String.valueOf(userID), Toast.LENGTH_LONG).show();
+            SharedPreferences.Editor saveAcc = isAccount.edit();
+            saveAcc.putInt(ISIN, 1);
+            saveAcc.apply();
         } else if (isIn == 0){
             if (hasConnection(this)) {
                 Intent iLog = new Intent(MainActivity.this, LoginActivity.class);
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         toInc = findViewById(R.id.button4);
         toExp = findViewById(R.id.button5);
+        sOut = findViewById(R.id.signout);
 
         @SuppressLint("NonConstantResourceId") View.OnClickListener onClickListener = view -> {
             switch (view.getId()) {
@@ -53,16 +56,22 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent1 = new Intent(MainActivity.this, Expenses.class);
                     startActivity(intent1);
                     break;
+                case R.id.signout:
+                    SharedPreferences.Editor saveAcc = isAccount.edit();
+                    saveAcc.putInt(ISIN, 0);
+                    saveAcc.apply();
+                    this.recreate();
+                    break;
             }
         };
-
         toInc.setOnClickListener(onClickListener);
         toExp.setOnClickListener(onClickListener);
+        sOut.setOnClickListener(onClickListener);
     }
 
     private void loadData(){
-        sP = getPreferences(MODE_PRIVATE);
-        isIn = sP.getInt(ISIN, 0);
+        isAccount = getPreferences(MODE_PRIVATE);
+        isIn = isAccount.getInt(ISIN, 0);
     }
 
     public static boolean hasConnection(final Context context)
