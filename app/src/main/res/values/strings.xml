@@ -10,4 +10,6 @@
     <string name="lets_in">Войти</string>
     <string name="lets_register">Регистрация</string>
     <string name="Registration">Регистрация</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
