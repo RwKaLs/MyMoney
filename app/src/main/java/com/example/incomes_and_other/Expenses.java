@@ -3,23 +3,17 @@ package com.example.incomes_and_other;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 public class Expenses extends AppCompatActivity {
 
-    //FrameLayout frameLayout = (FrameLayout)findViewById(R.id.spisok);
-    //private Fragment SpisokFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expenses);
-
-        //frameLayout.addView(SpisokFragment);
     }
 
     public void onBackClc2(View view){

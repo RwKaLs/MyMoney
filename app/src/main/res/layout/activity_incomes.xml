@@ -9,63 +9,62 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="76dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="588dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:backgroundTint="@color/colorPrimary"
         android:onClick="onBackClc"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button10"
+        app:layout_constraintTop_toBottomOf="@+id/button11"
         app:srcCompat="@drawable/arrow_left"
-        tools:ignore="SpeakableTextPresentCheck,UsingOnClickInXml" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/button9"
-        android:layout_width="137dp"
-        android:layout_height="51dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="1dp"
-        android:onClick="onDiagClc"
-        android:text="Диаграммы"
+        android:onClick="onListClc"
+        android:text="Список"
+        app:layout_constraintBottom_toTopOf="@+id/Cont_Inc"
         app:layout_constraintEnd_toStartOf="@+id/button10"
-        app:layout_constraintStart_toEndOf="@+id/button11"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UsingOnClickInXml" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button10"
-        android:layout_width="136dp"
-        android:layout_height="51dp"
-        android:onClick="onImportClc"
-        android:text="Импорт"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="onDiagClc"
+        android:text="Диаграмма"
+        app:layout_constraintBottom_toBottomOf="@+id/button11"
+        app:layout_constraintEnd_toStartOf="@+id/button11"
         app:layout_constraintStart_toEndOf="@+id/button9"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UsingOnClickInXml" />
-
-    <FrameLayout
-        android:id="@+id/Cont_Inc"
-        android:layout_width="409dp"
-        android:layout_height="583dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="98dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button11"
-        android:layout_width="137dp"
-        android:layout_height="50dp"
-        android:onClick="onListClc"
-        android:text="Список"
-        app:layout_constraintBottom_toBottomOf="@+id/button9"
-        app:layout_constraintEnd_toStartOf="@+id/button9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UsingOnClickInXml" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="547dp"
+        android:onClick="onImportClc"
+        android:text="Импорт"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button10"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <FrameLayout
+        android:id="@+id/Cont_Inc"
+        android:layout_width="match_parent"
+        android:layout_height="545dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button9"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
