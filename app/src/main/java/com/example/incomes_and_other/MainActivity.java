@@ -13,15 +13,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 public class MainActivity extends AppCompatActivity {
 
     Button toInc, toExp, sOut;
-    SharedPreferences isAccount;
-    int isIn;
+    SharedPreferences isAccount; // for saving userId
+    int isIn; // is User in account
+    String uId;
     private final String ISIN = "ISUSER";
+    private final String SPUID = "UID";
     String userID = "LALALA";
 
     @Override
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, String.valueOf(userID), Toast.LENGTH_LONG).show();
             SharedPreferences.Editor saveAcc = isAccount.edit();
             saveAcc.putInt(ISIN, 1);
+            saveAcc.putString(SPUID, userID);
             saveAcc.apply();
         } else if (isIn == 0){
             if (hasConnection(this)) {
@@ -59,8 +59,10 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.signout:
                     SharedPreferences.Editor saveAcc = isAccount.edit();
                     saveAcc.putInt(ISIN, 0);
+                    saveAcc.putString(SPUID, "");
                     saveAcc.apply();
-                    this.recreate();
+                    Intent ireturn = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(ireturn);
                     break;
             }
         };
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadData(){
         isAccount = getPreferences(MODE_PRIVATE);
         isIn = isAccount.getInt(ISIN, 0);
+        uId = isAccount.getString(SPUID, "");
     }
 
     public static boolean hasConnection(final Context context)

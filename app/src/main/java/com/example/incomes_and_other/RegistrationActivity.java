@@ -1,7 +1,5 @@
 package com.example.incomes_and_other;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -14,18 +12,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 public class RegistrationActivity extends AppCompatActivity {
     EditText edMail, edPassword;
     Button btnReg;
     TextView tvInfo;
-    DatabaseReference dbReference;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private DatabaseReference dbRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         } else if (!isValidEmail(email)) {
                             tvInfo.setText("Неверный формат почты!");
                         } else {
+                            mAuth.signOut();
                             mAuth.createUserWithEmailAndPassword(email, password);
                             mAuth.signOut();
                             mAuth.signInWithEmailAndPassword(email, password);
@@ -54,7 +56,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 mAuth.signInWithEmailAndPassword(email, password);
                                 currentUser = mAuth.getCurrentUser();
                             }
-                            dbReference.push().setValue(currentUser.getUid());
+                            //User mUser = new User(currentUser.getUid());
+                            dbRef.child(currentUser.getUid()).child("История").setValue("");
                             Intent iToLogin = new Intent(RegistrationActivity.this, LoginActivity.class);
                             iToLogin.putExtra("LOGIN", email);
                             iToLogin.putExtra("PASSWORD", password);
@@ -82,7 +85,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private void setFirebase(){
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        dbReference = FirebaseDatabase.getInstance().getReference();
+        dbRef = FirebaseDatabase.getInstance("https://exxx-cacff-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
     }
     public static boolean hasConnection(final Context context)
     {
