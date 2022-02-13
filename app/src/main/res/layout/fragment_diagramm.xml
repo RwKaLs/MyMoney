@@ -5,11 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".DiagrammFragment">
 
-    <TextView
-        android:id="@+id/textView2"
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart_exp"
         android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:text="Тут диаграмма"
-        android:textAlignment="center"
-        android:textSize="34sp" />
+        android:layout_height="492dp" />
+
+    <Button
+        android:id="@+id/reset_button_exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:gravity="right|center_horizontal"
+        android:text="Обновить" />
 </FrameLayout>

@@ -3,13 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DiagrammFragment2">
+    tools:context=".DiagrammFragment">
 
-    <TextView
-        android:id="@+id/textView5"
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart_inc"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:text="Диаграмма"
-        android:textAlignment="center"
-        android:textSize="34sp" />
+        android:layout_height="531dp" />
+
+    <Button
+        android:id="@+id/reset_button_exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:gravity="right|center_horizontal"
+        android:text="Обновить" />
 </FrameLayout>
