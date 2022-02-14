@@ -1,9 +1,11 @@
 package com.example.incomes_and_other;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -18,9 +20,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     Button toInc, toExp, sOut, saveInc, saveExp;
-    EditText edSumInc, edSumExp;
+    EditText edSumInc, edSumExp, edDateInc, edDateExp;
     Spinner spinnerInc, spinnerExp;
     SharedPreferences isAccount; // for saving userId
+    DBHelper dbHelperINC, dbHelperEXP;
     int isIn; // is User in account
     String uId;
     private final String ISIN = "ISUSER";
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         loadData();
         if (getIntent().getStringExtra("USER") != null){
             userID = getIntent().getStringExtra("USER");
-            Toast.makeText(this, String.valueOf(userID), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, String.valueOf(userID), Toast.LENGTH_LONG).show();
             SharedPreferences.Editor saveAcc = isAccount.edit();
             saveAcc.putInt(ISIN, 1);
             saveAcc.putString(SPUID, userID);
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         toInc.setOnClickListener(onClickListener);
         toExp.setOnClickListener(onClickListener);
         sOut.setOnClickListener(onClickListener);
+        saveInc.setOnClickListener(onClickListener);
+        saveExp.setOnClickListener(onClickListener);
     }
 
     private void initElements(){
@@ -84,10 +89,14 @@ public class MainActivity extends AppCompatActivity {
         sOut = findViewById(R.id.signout);
         edSumInc = findViewById(R.id.ed_sumInc);
         edSumExp = findViewById(R.id.ed_sumExp);
+        edDateInc = findViewById(R.id.ed_dateInc);
+        edDateExp = findViewById(R.id.ed_dateExp);
         saveInc = findViewById(R.id.save_Inc);
         saveExp = findViewById(R.id.save_Exp);
         spinnerInc = findViewById(R.id.spinner_Inc);
         spinnerExp = findViewById(R.id.spinner_Exp);
+        dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
+        dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
     }
 
     private void loadData(){
@@ -98,7 +107,33 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveInDb(int typeOp){
         if (typeOp == 0){
-            //Income sElement = new Income(); HERE: SET DATE IN LAYOUT
+            if (!String.valueOf(edSumInc.getText()).equals("") && !String.valueOf(edDateInc.getText()).equals("")){
+                String date = String.valueOf(edDateInc.getText());
+                int summa = Integer.parseInt(String.valueOf(edSumInc.getText()));
+                String type = String.valueOf(spinnerInc.getSelectedItem());
+                SQLiteDatabase databaseInc = dbHelperINC.getWritableDatabase();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DBHelper.KEY_DATE, date);
+                contentValues.put(DBHelper.KEY_SUMMA, summa);
+                contentValues.put(DBHelper.KEY_TYPE, type);
+                databaseInc.insert(DBHelper.STR_INC, null, contentValues);
+            } else {
+                Toast.makeText(this, "Неверный ввод!", Toast.LENGTH_LONG).show();
+            }
+        } else if (typeOp == 1){
+            if (!String.valueOf(edSumExp.getText()).equals("") && !String.valueOf(edDateExp.getText()).equals("")){
+                String date = String.valueOf(edDateExp.getText());
+                int summa = Integer.parseInt(String.valueOf(edSumExp.getText()));
+                String type = String.valueOf(spinnerExp.getSelectedItem());
+                SQLiteDatabase databaseExp = dbHelperEXP.getWritableDatabase();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DBHelper.KEY_DATE, date);
+                contentValues.put(DBHelper.KEY_SUMMA, summa);
+                contentValues.put(DBHelper.KEY_TYPE, type);
+                databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
+            } else {
+                Toast.makeText(this, "Неверный ввод!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

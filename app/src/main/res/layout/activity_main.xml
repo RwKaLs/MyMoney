@@ -48,19 +48,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:ems="5"
+            android:ems="4"
             android:inputType="number"
             android:hint="Сумма"
             android:id="@+id/ed_sumInc"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:ems="4"
+            android:hint="Дата"
+            android:inputType="date"
+            android:id="@+id/ed_dateInc"/>
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/Types_Inc"
             android:id="@+id/spinner_Inc"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
-            android:text="Сохранить"
+            android:text="OK"
             android:id="@+id/save_Inc"/>
     </LinearLayout>
 
@@ -94,19 +102,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:ems="5"
+            android:ems="4"
             android:inputType="number"
             android:hint="Сумма"
             android:id="@+id/ed_sumExp"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:ems="4"
+            android:hint="Дата"
+            android:inputType="date"
+            android:id="@+id/ed_dateExp"/>
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/Types_Exp"
             android:id="@+id/spinner_Exp"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
-            android:text="Сохранить"
+            android:text="OK"
             android:id="@+id/save_Exp"/>
     </LinearLayout>
 
