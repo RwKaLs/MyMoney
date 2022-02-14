@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,27 +7,108 @@
     android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="244sp"
-        android:layout_height="0sp"
-        android:layout_marginBottom="39sp"
-        android:text="@string/inc_sum"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+    <TextView
+        android:id="@+id/tv_Balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40sp"
+        android:layout_marginBottom="33sp"
+        android:text="@string/balance"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button5"
-        android:layout_width="247sp"
-        android:layout_height="0sp"
-        android:layout_marginBottom="286sp"
-        android:text="@string/sum_exp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/btn_toInc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/inc_sum"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_Balance" />
+    <TextView
+        android:id="@+id/tv_Add_Inc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Добавить доход: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_toInc" />
+    <LinearLayout
+        android:id="@+id/layout_newInc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Add_Inc">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:ems="5"
+            android:inputType="number"
+            android:hint="Сумма"
+            android:id="@+id/ed_sumInc"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/Types_Inc"
+            android:id="@+id/spinner_Inc"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сохранить"
+            android:id="@+id/save_Inc"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_toExp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sum_exp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_newInc" />
+
+    <TextView
+        android:id="@+id/tv_Add_Exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Добавить расход: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_toExp" />
+    <LinearLayout
+        android:id="@+id/layout_newExp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Add_Exp">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:ems="5"
+            android:inputType="number"
+            android:hint="Сумма"
+            android:id="@+id/ed_sumExp"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/Types_Exp"
+            android:id="@+id/spinner_Exp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сохранить"
+            android:id="@+id/save_Exp"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/signout"
@@ -37,17 +117,4 @@
         android:text="Выйти"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="241sp"
-        android:layout_height="0sp"
-        android:layout_marginTop="40sp"
-        android:layout_marginBottom="33sp"
-        android:text="@string/balance"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

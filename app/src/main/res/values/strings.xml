@@ -12,4 +12,16 @@
     <string name="Registration">Регистрация</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="Types_Inc">
+        <item>Зарплата</item>
+        <item>Подарок</item>
+        <item>Другое</item>
+    </string-array>
+    <string-array name="Types_Exp">
+        <item>Продукты</item>
+        <item>ЖКХ</item>
+        <item>Здоровье</item>
+        <item>Одежда</item>
+        <item>Другое</item>
+    </string-array>
 </resources>

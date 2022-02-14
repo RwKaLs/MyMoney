@@ -9,13 +9,17 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button toInc, toExp, sOut;
+    Button toInc, toExp, sOut, saveInc, saveExp;
+    EditText edSumInc, edSumExp;
+    Spinner spinnerInc, spinnerExp;
     SharedPreferences isAccount; // for saving userId
     int isIn; // is User in account
     String uId;
@@ -41,18 +45,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         setContentView(R.layout.activity_main);
-
-        toInc = findViewById(R.id.button4);
-        toExp = findViewById(R.id.button5);
-        sOut = findViewById(R.id.signout);
+        initElements();
 
         @SuppressLint("NonConstantResourceId") View.OnClickListener onClickListener = view -> {
             switch (view.getId()) {
-                case R.id.button4:
+                case R.id.btn_toInc:
                     Intent intent = new Intent(MainActivity.this, Incomes.class);
                     startActivity(intent);
                     break;
-                case R.id.button5:
+                case R.id.btn_toExp:
                     Intent intent1 = new Intent(MainActivity.this, Expenses.class);
                     startActivity(intent1);
                     break;
@@ -64,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
                     Intent ireturn = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(ireturn);
                     break;
+                case R.id.save_Inc:
+                    saveInDb(0);
+                    break;
+                case R.id.save_Exp:
+                    saveInDb(1);
+                    break;
             }
         };
         toInc.setOnClickListener(onClickListener);
@@ -71,10 +78,28 @@ public class MainActivity extends AppCompatActivity {
         sOut.setOnClickListener(onClickListener);
     }
 
+    private void initElements(){
+        toInc = findViewById(R.id.btn_toInc);
+        toExp = findViewById(R.id.btn_toExp);
+        sOut = findViewById(R.id.signout);
+        edSumInc = findViewById(R.id.ed_sumInc);
+        edSumExp = findViewById(R.id.ed_sumExp);
+        saveInc = findViewById(R.id.save_Inc);
+        saveExp = findViewById(R.id.save_Exp);
+        spinnerInc = findViewById(R.id.spinner_Inc);
+        spinnerExp = findViewById(R.id.spinner_Exp);
+    }
+
     private void loadData(){
         isAccount = getPreferences(MODE_PRIVATE);
         isIn = isAccount.getInt(ISIN, 0);
         uId = isAccount.getString(SPUID, "");
+    }
+
+    private void saveInDb(int typeOp){
+        if (typeOp == 0){
+            //Income sElement = new Income(); HERE: SET DATE IN LAYOUT
+        }
     }
 
     public static boolean hasConnection(final Context context)
