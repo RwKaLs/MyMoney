@@ -5,10 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,10 +19,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     Button toInc, toExp, sOut, saveInc, saveExp;
     EditText edSumInc, edSumExp, edDateInc, edDateExp;
+    ArrayList<Income> incomesData;
+    ArrayList<Expenses> expensesData;
     Spinner spinnerInc, spinnerExp;
     SharedPreferences isAccount; // for saving userId
     DBHelper dbHelperINC, dbHelperEXP;
@@ -97,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         spinnerExp = findViewById(R.id.spinner_Exp);
         dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
         dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
+        loadDb();
     }
-
     private void loadData(){
         isAccount = getPreferences(MODE_PRIVATE);
         isIn = isAccount.getInt(ISIN, 0);
@@ -117,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 contentValues.put(DBHelper.KEY_SUMMA, summa);
                 contentValues.put(DBHelper.KEY_TYPE, type);
                 databaseInc.insert(DBHelper.STR_INC, null, contentValues);
+                loadDb();
             } else {
                 Toast.makeText(this, "Неверный ввод!", Toast.LENGTH_LONG).show();
             }
@@ -131,12 +138,28 @@ public class MainActivity extends AppCompatActivity {
                 contentValues.put(DBHelper.KEY_SUMMA, summa);
                 contentValues.put(DBHelper.KEY_TYPE, type);
                 databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
+                loadDb();
             } else {
                 Toast.makeText(this, "Неверный ввод!", Toast.LENGTH_LONG).show();
             }
         }
     }
-
+    // now just for incomes
+    private void loadDb(){
+        SQLiteDatabase sqlLoad = dbHelperINC.getWritableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = sqlLoad.query(DBHelper.STR_INC, null, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
+            int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
+            int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
+                do {
+                    Log.d("DBLOG", "DATE = " + cursor.getString(date) + " SUMMA = " +
+                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
+                } while (cursor.moveToNext());
+        } else {
+            Log.d("DBLOG", "NOR");
+        }
+    }
     public static boolean hasConnection(final Context context)
     {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
