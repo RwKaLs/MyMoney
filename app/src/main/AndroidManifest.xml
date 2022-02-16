@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".loginlogic.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".loginlogic.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".ExpensesActivity"

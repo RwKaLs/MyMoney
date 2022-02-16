@@ -1,4 +1,4 @@
-package com.example.incomes_and_other;
+package com.example.incomes_and_other.loginlogic;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.incomes_and_other.MainActivity;
+import com.example.incomes_and_other.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
