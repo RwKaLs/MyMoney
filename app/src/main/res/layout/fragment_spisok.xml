@@ -5,11 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".SpisokFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_Exp"
         android:layout_width="match_parent"
-        android:layout_height="86dp"
-        android:text="Тута будет список"
-        android:textAlignment="center"
-        android:textSize="34sp" />
+        android:layout_height="match_parent" />
 </FrameLayout>
