@@ -7,7 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-public class Expenses extends AppCompatActivity {
+public class ExpensesActivity extends AppCompatActivity {
 
 
     @Override
@@ -17,28 +17,28 @@ public class Expenses extends AppCompatActivity {
     }
 
     public void onBackClc2(View view){
-        Intent intent = new Intent(Expenses.this, MainActivity.class);
+        Intent intent = new Intent(ExpensesActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
     public void onDiagClc(View view) {
-        DiagrammFragment diagrammFragment = new DiagrammFragment();
+        ExpensesDiagrammFragment expensesDiagrammFragment = new ExpensesDiagrammFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.Cont_Exp, diagrammFragment);
+        ft.replace(R.id.Cont_Exp, expensesDiagrammFragment);
         ft.commit();
     }
 
     public void onImprtClc(View view) {
-        ImportFragment importFragment = new ImportFragment();
+        ExpencesExcelFragment expencesExcelFragment = new ExpencesExcelFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.Cont_Exp, importFragment);
+        ft.replace(R.id.Cont_Exp, expencesExcelFragment);
         ft.commit();
     }
 
     public void onListClc(View view) {
-        SpisokFragment spisokFragment = new SpisokFragment();
+        IncomesListFragment incomesListFragment = new IncomesListFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.Cont_Exp, spisokFragment);
+        ft.replace(R.id.Cont_Exp, incomesListFragment);
         ft.commit();
     }
 }

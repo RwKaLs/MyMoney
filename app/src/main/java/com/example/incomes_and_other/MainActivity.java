@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     DBHelper dbHelperINC, dbHelperEXP;
     ExpensesProvider expProv;
     IncomesProvider incProv;
-    TextView testDb;
     int isIn; // is User in account
     String uId;
     private final String ISIN = "ISUSER";
@@ -63,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("NonConstantResourceId") View.OnClickListener onClickListener = view -> {
             switch (view.getId()) {
                 case R.id.btn_toInc:
-                    Intent intent = new Intent(MainActivity.this, Incomes.class);
+                    Intent intent = new Intent(MainActivity.this, IncomesActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.btn_toExp:
-                    Intent intent1 = new Intent(MainActivity.this, Expenses.class);
+                    Intent intent1 = new Intent(MainActivity.this, ExpensesActivity.class);
                     startActivity(intent1);
                     break;
                 case R.id.signout:
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         expensesData = new ArrayList<>();
         dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
         dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
-        testDb = findViewById(R.id.testDb);
         loadDb();
 
     }
@@ -188,10 +185,8 @@ public class MainActivity extends AppCompatActivity {
     public void setProviders(){
         incProv = () -> incomesData;
         expProv = () -> expensesData;
-        testDb.setText(incomesData.toString() + "\n" + expensesData.toString());
     }
-    public static boolean hasConnection(final Context context)
-    {
+    public static boolean hasConnection(final Context context) {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (wifiInfo != null && wifiInfo.isConnected())
@@ -207,4 +202,3 @@ public class MainActivity extends AppCompatActivity {
         return wifiInfo != null && wifiInfo.isConnected();
     }
 }
-

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -16,24 +17,25 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class DiagrammFragment2 extends Fragment {
+public class ExpensesDiagrammFragment extends Fragment {
 
     private PieChart chart;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_diagramm2, container, false);
 
-        chart = (PieChart)view.findViewById(R.id.chart_inc);
+        View view = inflater.inflate(R.layout.fragment_diagramm, container, false);
+
+        chart = view.findViewById(R.id.chart_exp);
 
         ArrayList<PieEntry> yVals = new ArrayList<>();
         yVals.add (new PieEntry (28.6f, "нарушение"));

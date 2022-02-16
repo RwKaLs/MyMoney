@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ImportFragment extends Fragment {
+public class ExpencesExcelFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

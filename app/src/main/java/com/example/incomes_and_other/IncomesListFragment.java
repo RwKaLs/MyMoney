@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class SpisokFragment extends Fragment {
+public class IncomesListFragment extends Fragment {
 
     ArrayList<Income> incomes = new ArrayList<Income>();
 
