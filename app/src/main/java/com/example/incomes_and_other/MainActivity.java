@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,11 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
     Button toInc, toExp, sOut, saveInc, saveExp;
     EditText edSumInc, edSumExp, edDateInc, edDateExp;
-    ArrayList<Income> incomesData;
-    ArrayList<Expenses> expensesData;
+    ArrayList<Income> incomesData; // get it from DB
+    ArrayList<Expense> expensesData; // get it from DB
     Spinner spinnerInc, spinnerExp;
     SharedPreferences isAccount; // for saving userId
     DBHelper dbHelperINC, dbHelperEXP;
+    ExpensesProvider expProv;
+    IncomesProvider incProv;
+    TextView testDb;
     int isIn; // is User in account
     String uId;
     private final String ISIN = "ISUSER";
@@ -101,9 +105,13 @@ public class MainActivity extends AppCompatActivity {
         saveExp = findViewById(R.id.save_Exp);
         spinnerInc = findViewById(R.id.spinner_Inc);
         spinnerExp = findViewById(R.id.spinner_Exp);
+        incomesData = new ArrayList<>();
+        expensesData = new ArrayList<>();
         dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
         dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
+        testDb = findViewById(R.id.testDb);
         loadDb();
+
     }
     private void loadData(){
         isAccount = getPreferences(MODE_PRIVATE);
@@ -145,20 +153,42 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     // now just for incomes
+    @SuppressLint("Recycle")
     private void loadDb(){
         SQLiteDatabase sqlLoad = dbHelperINC.getWritableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = sqlLoad.query(DBHelper.STR_INC, null, null, null, null, null, null);
+        Cursor cursor = sqlLoad.query(DBHelper.STR_INC, null, null, null, null, null, null);
         if (cursor.moveToFirst()){
             int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
             int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
             int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
                 do {
-                    Log.d("DBLOG", "DATE = " + cursor.getString(date) + " SUMMA = " +
-                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
+                    incomesData.add(new Income(cursor.getString(date), cursor.getInt(summa), cursor.getString(type)));
+//                    Log.d("DBLOG", "DATE = " + cursor.getString(date) + " SUMMA = " +
+//                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
                 } while (cursor.moveToNext());
         } else {
-            Log.d("DBLOG", "NOR");
+            Log.d("DBLOG", "NODATA");
         }
+        sqlLoad = dbHelperEXP.getWritableDatabase();
+        cursor = sqlLoad.query(DBHelper.STR_EXP, null, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
+            int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
+            int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
+                do {
+                    expensesData.add(new Expense(cursor.getString(date), cursor.getInt(summa), cursor.getString(type)));
+//                    Log.d("DBLOG", "DATE = " + cursor.getString(date) + " SUMMA = " +
+//                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
+                } while (cursor.moveToNext());
+        } else {
+            Log.d("DBLOG", "NODATA");
+        }
+        setProviders();
+    }
+    public void setProviders(){
+        incProv = () -> incomesData;
+        expProv = () -> expensesData;
+        testDb.setText(incomesData.toString() + "\n" + expensesData.toString());
     }
     public static boolean hasConnection(final Context context)
     {
