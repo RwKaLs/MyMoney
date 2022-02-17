@@ -1,10 +1,14 @@
 package com.example.incomes_and_other;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +17,14 @@ import java.util.ArrayList;
 
 public class IncomesListFragment extends Fragment {
 
+    DBHelper dbHelperINC;
     ArrayList<Income> incomes = new ArrayList<>();
-    IncomesProvider incomesProvider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbHelperINC = new DBHelper(this.getContext(), DBHelper.STR_INC);
+        loadDb();
     }
 
     @Override
@@ -40,6 +46,23 @@ public class IncomesListFragment extends Fragment {
     }
 
     private ArrayList<Income> setInitialData(){
-        return incomesProvider.getIncomesFromDB();
+        return incomes;
+    }
+    @SuppressLint("Recycle")
+    private void loadDb(){
+        SQLiteDatabase sqlLoad = dbHelperINC.getWritableDatabase();
+        Cursor cursor = sqlLoad.query(DBHelper.STR_INC, null, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
+            int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
+            int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
+            do {
+                incomes.add(new Income(cursor.getString(date), cursor.getInt(summa), cursor.getString(type)));
+//                    Log.d("HEYFROMSPISOK", "DATE = " + cursor.getString(date) + " SUMMA = " +
+//                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
+            } while (cursor.moveToNext());
+        } else {
+            Log.d("DBLOG", "NODATA");
+        }
     }
 }

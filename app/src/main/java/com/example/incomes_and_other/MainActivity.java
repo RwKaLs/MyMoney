@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinnerInc, spinnerExp;
     SharedPreferences isAccount; // for saving userId
     DBHelper dbHelperINC, dbHelperEXP;
-    ExpensesProvider expProv;
-    IncomesProvider incProv;
     int isIn; // is User in account
     String uId;
     private final String ISIN = "ISUSER";
@@ -184,11 +182,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("DBLOG", "NODATA");
         }
-        setProviders();
-    }
-    public void setProviders(){
-        incProv = () -> incomesData;
-        expProv = () -> expensesData;
     }
     public static boolean hasConnection(final Context context) {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
