@@ -41,4 +41,10 @@ public class ExpensesActivity extends AppCompatActivity {
         ft.replace(R.id.Cont_Exp, incomesListFragment);
         ft.commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ExpensesActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 }

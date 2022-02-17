@@ -40,4 +40,10 @@ public class IncomesActivity extends AppCompatActivity {
         ft.replace(R.id.Cont_Inc, incomesDiagrammFragment);
         ft.commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(IncomesActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 }

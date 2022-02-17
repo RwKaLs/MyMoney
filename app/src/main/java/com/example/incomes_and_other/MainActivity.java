@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button toInc, toExp, sOut, saveInc, saveExp;
+    Button toInc, toExp, toSettings, saveInc, saveExp;
     EditText edSumInc, edSumExp, edDateInc, edDateExp;
     ArrayList<Income> incomesData; // get it from DB
     ArrayList<Expense> expensesData; // get it from DB
@@ -70,13 +70,15 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent1 = new Intent(MainActivity.this, ExpensesActivity.class);
                     startActivity(intent1);
                     break;
-                case R.id.signout:
-                    SharedPreferences.Editor saveAcc = isAccount.edit();
-                    saveAcc.putInt(ISIN, 0);
-                    saveAcc.putString(SPUID, "");
-                    saveAcc.apply();
-                    Intent ireturn = new Intent(MainActivity.this, MainActivity.class);
-                    startActivity(ireturn);
+                case R.id.btn_settings:
+//                    SharedPreferences.Editor saveAcc = isAccount.edit();
+//                    saveAcc.putInt(ISIN, 0);
+//                    saveAcc.putString(SPUID, "");
+//                    saveAcc.apply();
+//                    Intent ireturn = new Intent(MainActivity.this, MainActivity.class);
+//                    startActivity(ireturn);
+                    Intent iSettings = new Intent(MainActivity.this, SettingsActivity.class);
+                    startActivity(iSettings);
                     break;
                 case R.id.save_Inc:
                     saveInDb(0);
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         };
         toInc.setOnClickListener(onClickListener);
         toExp.setOnClickListener(onClickListener);
-        sOut.setOnClickListener(onClickListener);
+        toSettings.setOnClickListener(onClickListener);
         saveInc.setOnClickListener(onClickListener);
         saveExp.setOnClickListener(onClickListener);
     }
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private void initElements(){
         toInc = findViewById(R.id.btn_toInc);
         toExp = findViewById(R.id.btn_toExp);
-        sOut = findViewById(R.id.signout);
+        toSettings = findViewById(R.id.btn_settings);
         edSumInc = findViewById(R.id.ed_sumInc);
         edSumExp = findViewById(R.id.ed_sumExp);
         edDateInc = findViewById(R.id.ed_dateInc);
