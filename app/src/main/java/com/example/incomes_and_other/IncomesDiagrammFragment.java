@@ -31,7 +31,7 @@ public class IncomesDiagrammFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_diagramm2, container, false);
+        View view = inflater.inflate(R.layout.fragment_incomes_diagramm, container, false);
 
         chart = (PieChart)view.findViewById(R.id.chart_inc);
 

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -17,7 +16,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ExpensesDiagrammFragment extends Fragment {
 
@@ -33,7 +31,7 @@ public class ExpensesDiagrammFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_diagramm, container, false);
+        View view = inflater.inflate(R.layout.fragment_expenses_diagramm, container, false);
 
         chart = view.findViewById(R.id.chart_exp);
 

@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.incomes_and_other.loginlogic.LoginActivity;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {

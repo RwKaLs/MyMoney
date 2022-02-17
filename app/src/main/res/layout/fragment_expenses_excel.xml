@@ -9,7 +9,7 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="82dp"
-        android:text="Сюда импорт"
+        android:text="Сюда экспорт"
         android:textAlignment="center"
         android:textSize="34sp" />
 </FrameLayout>
