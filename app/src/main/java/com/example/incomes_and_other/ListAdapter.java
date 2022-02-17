@@ -38,7 +38,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {     // TODO: разобраться, как подавать размер
-        return 4;   //incomes.size();
+        return incomes.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

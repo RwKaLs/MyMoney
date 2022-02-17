@@ -13,7 +13,8 @@ import java.util.ArrayList;
 
 public class IncomesListFragment extends Fragment {
 
-    ArrayList<Income> incomes = new ArrayList<Income>();
+    ArrayList<Income> incomes = new ArrayList<>();
+    IncomesProvider incomesProvider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,11 +39,7 @@ public class IncomesListFragment extends Fragment {
         return view;
     }
 
-    private void setInitialData(){
-        // Инициализация данных вручную для проверки
-        incomes.add(new Income ("12.05.1999", 100, "Другое"));
-        incomes.add(new Income ("24.02.2006", 1000, "ЖКХ"));
-        incomes.add(new Income ("01.01.2000", 550, "Другое"));
-        incomes.add(new Income ("07.10.2020", 25000, "Продукты"));
+    private ArrayList<Income> setInitialData(){
+        return incomesProvider.getIncomesFromDB();
     }
 }
