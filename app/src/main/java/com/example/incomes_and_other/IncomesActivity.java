@@ -16,11 +16,6 @@ public class IncomesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_incomes);
     }
 
-    public void onBackClc(View view){
-        Intent intent = new Intent(IncomesActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
-
     public void onListClc(View view) {
         IncomesListFragment incomesListFragment = new IncomesListFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -28,7 +23,7 @@ public class IncomesActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void onImportClc(View view) {
+    public void onExportClc(View view) {
         IncomesExcelFragment incomesExcelFragment = new IncomesExcelFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.Cont_Inc, incomesExcelFragment);

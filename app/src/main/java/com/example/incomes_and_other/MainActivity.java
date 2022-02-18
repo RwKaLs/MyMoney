@@ -42,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadData();
+        if (getIntent().getIntExtra("LETSOUT", 0) == 1){
+            SharedPreferences.Editor saveAcc = isAccount.edit();
+            saveAcc.clear();
+            saveAcc.putInt(ISIN, 0);
+            saveAcc.apply();
+            Intent reloadSout = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(reloadSout);
+        }
         if (getIntent().getStringExtra("USER") != null){
             userID = getIntent().getStringExtra("USER");
             //Toast.makeText(this, String.valueOf(userID), Toast.LENGTH_LONG).show();

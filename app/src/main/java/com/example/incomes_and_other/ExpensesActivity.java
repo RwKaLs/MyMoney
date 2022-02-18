@@ -16,11 +16,6 @@ public class ExpensesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expenses);
     }
 
-    public void onBackClc2(View view){
-        Intent intent = new Intent(ExpensesActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
-
     public void onDiagClc(View view) {
         ExpensesDiagrammFragment expensesDiagrammFragment = new ExpensesDiagrammFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -28,7 +23,7 @@ public class ExpensesActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void onImprtClc(View view) {
+    public void onExportClc(View view) {
         ExpencesExcelFragment expencesExcelFragment = new ExpencesExcelFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.Cont_Exp, expencesExcelFragment);

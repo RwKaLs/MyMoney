@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -19,6 +20,8 @@ public class IncomesListFragment extends Fragment {
 
     DBHelper dbHelperINC;
     ArrayList<Income> incomes = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private final RecyclerView.Adapter adapter = new ListAdapter(this.incomes);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,26 +31,22 @@ public class IncomesListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_incomes_list, container, false);
-
-        // начальная инициализация списка
-        setInitialData();
-        RecyclerView recyclerView = view.findViewById(R.id.list_Exp);
-        // создаем адаптер
-        ListAdapter adapter = new ListAdapter(this.getContext(), incomes);
-        // устанавливаем для списка адаптер
-        recyclerView.setAdapter(adapter);
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState
+    ) {
 
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_incomes_list, container, false);
+
+        // Add the following lines to create RecyclerView
+        recyclerView = view.findViewById(R.id.list_INC);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new ListAdapter(incomes));
         return view;
     }
 
-    private ArrayList<Income> setInitialData(){
-        return incomes;
-    }
     @SuppressLint("Recycle")
     private void loadDb(){
         SQLiteDatabase sqlLoad = dbHelperINC.getWritableDatabase();

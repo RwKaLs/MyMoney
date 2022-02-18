@@ -6,7 +6,7 @@
     tools:context=".IncomesListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_Exp"
+        android:id="@+id/list_INC"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

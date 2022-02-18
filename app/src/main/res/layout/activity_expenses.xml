@@ -4,67 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/background"
     tools:context=".ExpensesActivity">
 
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:onClick="onBackClc2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
-        app:srcCompat="@drawable/arrow_left"
-        tools:ignore="SpeakableTextPresentCheck" />
-
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_list"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="1dp"
+        android:layout_height="wrap_content"
         android:onClick="onListClc"
         android:text="Список"
-        app:layout_constraintBottom_toTopOf="@+id/Cont_Exp"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/btn_diag"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_diag"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:onClick="onDiagClc"
         android:text="Диаграмма"
-        app:layout_constraintBottom_toBottomOf="@+id/button3"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
-        app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/btn_list"
+        app:layout_constraintEnd_toStartOf="@+id/btn_Excel"
+        app:layout_constraintStart_toEndOf="@+id/btn_list"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btn_Excel"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="547dp"
-        android:onClick="onImprtClc"
-        android:text="Импорт"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton2"
+        android:layout_height="wrap_content"
+        android:onClick="onExportClc"
+        android:text="Экспорт"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/btn_diag"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="OnClick,UsingOnClickInXml" />
 
     <FrameLayout
         android:id="@+id/Cont_Exp"
         android:layout_width="match_parent"
-        android:layout_height="545dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50sp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_list"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

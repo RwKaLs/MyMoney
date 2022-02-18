@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,7 +40,6 @@ public class RegistrationActivity extends AppCompatActivity {
                         String email = String.valueOf(edMail.getText());
                         String password = String.valueOf(edPassword.getText());
                         tvInfo.setText("Регистрация...");
-                        Toast.makeText(this, email, Toast.LENGTH_LONG).show();
                         if (password.length() < 6) {
                             tvInfo.setText("Пароль не должен содержать меньше 6 знаков!");
                         } else if (!isValidEmail(email)) {
