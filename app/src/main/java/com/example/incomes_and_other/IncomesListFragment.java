@@ -20,8 +20,6 @@ public class IncomesListFragment extends Fragment {
 
     DBHelper dbHelperINC;
     ArrayList<Income> incomes = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private final RecyclerView.Adapter adapter = new ListAdapter(this.incomes);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +38,7 @@ public class IncomesListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_incomes_list, container, false);
 
         // Add the following lines to create RecyclerView
-        recyclerView = view.findViewById(R.id.list_INC);
+        RecyclerView recyclerView = view.findViewById(R.id.list_INC);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(new ListAdapter(incomes));
@@ -61,7 +59,7 @@ public class IncomesListFragment extends Fragment {
 //                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
             } while (cursor.moveToNext());
         } else {
-            Log.d("DBLOG", "NODATA");
+            Log.d("DBLOGINC", "NODATA");
         }
     }
 }
