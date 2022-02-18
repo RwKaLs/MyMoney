@@ -1,6 +1,8 @@
 package com.example.incomes_and_other;
 
-public class Income {
+import java.io.Serializable;
+
+public class Income implements Serializable {
 
     private String data;
     private int summa;

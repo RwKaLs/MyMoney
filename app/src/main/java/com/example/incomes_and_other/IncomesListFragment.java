@@ -41,7 +41,7 @@ public class IncomesListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.list_INC);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(new ListAdapter(incomes));
+        recyclerView.setAdapter(new IncomesListAdapter(incomes));
         return view;
     }
 

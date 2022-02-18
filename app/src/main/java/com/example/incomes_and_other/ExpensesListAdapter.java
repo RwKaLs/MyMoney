@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private final ArrayList<Income> incomes;
+    private final ArrayList<Expense> expenses;
 
-    ListAdapter(ArrayList<Income> incomes) {
-        this.incomes = incomes;
+    ExpensesListAdapter(ArrayList<Expense> expenses) {
+        this.expenses = expenses;
     }
 
     @NonNull
@@ -31,13 +31,13 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         TextView tv_date = holder.itemView.findViewById(R.id.DateListItem);
         TextView tv_sum = holder.itemView.findViewById(R.id.SumListItem);
         TextView tv_type = holder.itemView.findViewById(R.id.TypeListItem);
-        tv_date.setText(String.valueOf(incomes.get(position).getData()));
-        tv_sum.setText(String.valueOf(incomes.get(position).getSumma()));
-        tv_type.setText(String.valueOf(incomes.get(position).getType()));
+        tv_date.setText(String.valueOf(expenses.get(position).getData()));
+        tv_sum.setText(String.valueOf(expenses.get(position).getSumma()));
+        tv_type.setText(String.valueOf(expenses.get(position).getType()));
     }
 
     @Override
     public int getItemCount() {
-        return incomes.size();
+        return expenses.size();
     }
 }

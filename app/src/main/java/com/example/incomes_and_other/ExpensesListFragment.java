@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,10 +29,20 @@ public class ExpensesListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState
+    ) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_expenses_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_expenses_list, container, false);
+
+        // Add the following lines to create RecyclerView
+        RecyclerView recyclerView = view.findViewById(R.id.list_EXP);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new ExpensesListAdapter(expenses));
+        return view;
     }
 
     @SuppressLint("Recycle")

@@ -31,9 +31,9 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     public void onListClc(View view) {
-        IncomesListFragment incomesListFragment = new IncomesListFragment();
+        ExpensesListFragment expensesListFragment = new ExpensesListFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.Cont_Exp, incomesListFragment);
+        ft.replace(R.id.Cont_Exp, expensesListFragment);
         ft.commit();
     }
 
