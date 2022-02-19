@@ -1,32 +1,47 @@
 package com.example.incomes_and_other;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
+
     Button btn_logout, btn_toFB, btn_fromFB;
-    private FirebaseAuth fAuth;
-    protected FirebaseUser fUser;
     private DatabaseReference fbReference;
+    private DBHelper dbHelperINC, dbHelperEXP;
+    private String userId;
+    private ArrayList<Income> incomesData;
+    private ArrayList<Expense> expensesData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        if (getIntent().getStringExtra("UID") != null){
+            userId = getIntent().getStringExtra("UID");
+        }
         initElements();
         @SuppressLint("NonConstantResourceId") View.OnClickListener onclck = view -> {
             switch (view.getId()){
@@ -59,14 +74,108 @@ public class SettingsActivity extends AppCompatActivity {
         btn_logout = findViewById(R.id.btn_logout);
         btn_toFB = findViewById(R.id.btn_putInFirebase);
         btn_fromFB = findViewById(R.id.btn_getFromFirebase);
+        incomesData = new ArrayList<>();
+        expensesData = new ArrayList<>();
+        fbReference = FirebaseDatabase.getInstance("https://exxx-cacff-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
+        dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
+        dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
     }
 
     private void getFromFB(){
+        SQLiteDatabase sqlINC = dbHelperINC.getWritableDatabase();
+        SQLiteDatabase sqlEXP = dbHelperEXP.getWritableDatabase();
+        sqlINC.delete(DBHelper.STR_INC, null, null);
+        sqlEXP.delete(DBHelper.STR_EXP, null, null);
+        ValueEventListener vEL = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds: snapshot.child(userId).child("Incomes").getChildren()){
+                    Income income = ds.getValue(Income.class);
+                    assert income != null;
+                    putINCIntoSQLite(income);
+                }
+                for (DataSnapshot ds: snapshot.child(userId).child("Expenses").getChildren()){
+                    Expense expense = ds.getValue(Expense.class);
+                    assert expense != null;
+                    putEXPIntoSQLite(expense);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        fbReference.addValueEventListener(vEL);
     }
 
     private void putIntoDB(){
+        getFromSQLite();
+        fbReference.child(userId).removeValue();
+        fbReference.child(userId).removeValue();
+        int j = 0;
+        for (Income i: incomesData){
+            Time now = new Time();
+            now.setToNow();
+            fbReference.child(userId).child("Incomes").child(now + String.valueOf(j)).setValue(i);
+            j++;
+        }
+        j = 0;
+        for (Expense i: expensesData){
+            Time now = new Time();
+            now.setToNow();
+            fbReference.child(userId).child("Expenses").child(now + String.valueOf(j)).setValue(i);
+            j++;
+        }
+    }
 
+    private void putINCIntoSQLite(Income newIncome){
+        SQLiteDatabase databaseInc = dbHelperINC.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBHelper.KEY_DATE, newIncome.getData());
+        contentValues.put(DBHelper.KEY_SUMMA, newIncome.getSumma());
+        contentValues.put(DBHelper.KEY_TYPE, newIncome.getType());
+        databaseInc.insert(DBHelper.STR_INC, null, contentValues);
+    }
+
+    private void putEXPIntoSQLite(Expense newExpense){
+        SQLiteDatabase databaseExp = dbHelperEXP.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBHelper.KEY_DATE, newExpense.getData());
+        contentValues.put(DBHelper.KEY_SUMMA, newExpense.getSumma());
+        contentValues.put(DBHelper.KEY_TYPE, newExpense.getType());
+        databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
+    }
+
+    private void getFromSQLite(){
+        SQLiteDatabase sqlLoad = dbHelperINC.getWritableDatabase();
+        Cursor cursor = sqlLoad.query(DBHelper.STR_INC, null, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
+            int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
+            int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
+            do {
+                incomesData.add(new Income(cursor.getString(date), cursor.getInt(summa), cursor.getString(type)));
+//                    Log.d("DBLOG", "DATE = " + cursor.getString(date) + " SUMMA = " +
+//                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
+            } while (cursor.moveToNext());
+        } else {
+            Log.d("DBLOG", "NODATA");
+        }
+        sqlLoad = dbHelperEXP.getWritableDatabase();
+        cursor = sqlLoad.query(DBHelper.STR_EXP, null, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
+            int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
+            int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
+            do {
+                expensesData.add(new Expense(cursor.getString(date), cursor.getInt(summa), cursor.getString(type)));
+//                    Log.d("DBLOG", "DATE = " + cursor.getString(date) + " SUMMA = " +
+//                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
+            } while (cursor.moveToNext());
+        } else {
+            Log.d("DBLOG", "NODATA");
+        }
     }
 
     public static boolean hasConnection(final Context context) {

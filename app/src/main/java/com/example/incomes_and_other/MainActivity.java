@@ -47,10 +47,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         loadData();
         if (getIntent().getIntExtra("LETSOUT", 0) == 1){
+            DBHelper incOut = new DBHelper(this, DBHelper.STR_INC);
+            DBHelper expOut = new DBHelper(this, DBHelper.STR_EXP);
             SharedPreferences.Editor saveAcc = isAccount.edit();
             saveAcc.clear();
             saveAcc.putInt(ISIN, 0);
             saveAcc.apply();
+            SQLiteDatabase sqlINC = incOut.getWritableDatabase();
+            SQLiteDatabase sqlEXP = expOut.getWritableDatabase();
+            sqlINC.delete(DBHelper.STR_INC, null, null);
+            sqlEXP.delete(DBHelper.STR_EXP, null, null);
             Intent reloadSout = new Intent(MainActivity.this, MainActivity.class);
             startActivity(reloadSout);
         }
@@ -91,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 //                    Intent ireturn = new Intent(MainActivity.this, MainActivity.class);
 //                    startActivity(ireturn);
                     Intent iSettings = new Intent(MainActivity.this, SettingsActivity.class);
+                    iSettings.putExtra("UID", uId);
                     startActivity(iSettings);
                     break;
                 case R.id.save_Inc:
@@ -127,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         loadDb();
 
     }
+
     private void loadData(){
         isAccount = getPreferences(MODE_PRIVATE);
         isIn = isAccount.getInt(ISIN, 0);

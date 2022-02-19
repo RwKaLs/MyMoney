@@ -5,6 +5,10 @@ public class Expense {
     private int summa;
     private String type;
 
+    public Expense(){
+
+    }
+
     public Expense(String data, int summa, String type){
         this.data = data;
         this.summa = summa;

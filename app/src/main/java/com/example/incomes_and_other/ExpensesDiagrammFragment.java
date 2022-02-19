@@ -1,10 +1,14 @@
 package com.example.incomes_and_other;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +24,15 @@ import java.util.ArrayList;
 public class ExpensesDiagrammFragment extends Fragment {
 
     private PieChart chart;
+    private DBHelper dbHelperEXP;
+    private ArrayList<Expense> expensesData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbHelperEXP = new DBHelper(this.getContext(), DBHelper.STR_EXP);
+        expensesData = new ArrayList<>();
+        loadDb();
     }
 
     @Override
@@ -56,5 +65,23 @@ public class ExpensesDiagrammFragment extends Fragment {
         chart.setDescription(description);
 
         return view;
+    }
+
+    @SuppressLint("Recycle")
+    private void loadDb(){
+        SQLiteDatabase sqlLoad = dbHelperEXP.getWritableDatabase();
+        Cursor cursor = sqlLoad.query(DBHelper.STR_EXP, null, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
+            int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
+            int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
+            do {
+                expensesData.add(new Expense(cursor.getString(date), cursor.getInt(summa), cursor.getString(type)));
+//                    Log.d("DBLOG", "DATE = " + cursor.getString(date) + " SUMMA = " +
+//                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
+            } while (cursor.moveToNext());
+        } else {
+            Log.d("DBLOG", "NODATA");
+        }
     }
 }

@@ -8,6 +8,10 @@ public class Income implements Serializable {
     private int summa;
     private String type;
 
+    public Income(){
+
+    }
+
     public Income(String data, int summa, String type){
         this.data = data;
         this.summa = summa;
