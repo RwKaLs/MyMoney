@@ -36,8 +36,8 @@ public class IncomesDiagrammFragment extends Fragment {
         chart = (PieChart)view.findViewById(R.id.chart_inc);
 
         ArrayList<PieEntry> yVals = new ArrayList<>();
-        yVals.add (new PieEntry (28.6f, "нарушение"));
-        yVals.add (new PieEntry (71.3f, "Нет нарушений"));  // Здесь происходит инициализация данных в диаграмме
+        yVals.add (new PieEntry (28.6f, "Зарплата"));
+        yVals.add (new PieEntry (71.3f, "Подарок"));  // Здесь происходит инициализация данных в диаграмме
 
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(Color.parseColor("#4A92FC"));
