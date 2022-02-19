@@ -63,13 +63,19 @@ public class IncomesDiagrammFragment extends Fragment {
         chart = (PieChart)view.findViewById(R.id.chart_inc);
 
         ArrayList<PieEntry> yVals = new ArrayList<>();
-        yVals.add (new PieEntry ((float)sumSalary/sumAll, "Зарплата"));
-        yVals.add (new PieEntry ((float)sumPresent/sumAll, "Подарок"));
-        yVals.add (new PieEntry ((float)sumOther/sumAll, "Подарок"));  // Здесь происходит инициализация данных в диаграмме
+        if (sumSalary != 0) {
+            yVals.add(new PieEntry((float) sumSalary / sumAll, "Зарплата"));
+        }
+        if (sumPresent != 0) {
+            yVals.add(new PieEntry((float) sumPresent / sumAll, "Подарок"));    // Здесь происходит инициализация данных в диаграмме
+        }
+        if (sumOther != 0) {
+            yVals.add(new PieEntry((float) sumOther / sumAll, "Другое"));
+        }
 
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(Color.parseColor("#4A92FC"));
-        colors.add(Color.parseColor("#FFFFFF"));
+        colors.add(Color.parseColor("#05fa3a"));    //TODO: поменять синий на другой, сливается с фоном
         colors.add(Color.parseColor("#ee6e55"));   // Цвета диаграммы
 
         PieDataSet pieDataSet = new PieDataSet(yVals, "");

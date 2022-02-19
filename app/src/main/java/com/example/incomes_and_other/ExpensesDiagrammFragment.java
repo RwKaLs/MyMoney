@@ -26,13 +26,40 @@ public class ExpensesDiagrammFragment extends Fragment {
     private PieChart chart;
     private DBHelper dbHelperEXP;
     private ArrayList<Expense> expensesData;
+    int sumProduct, sumZKH, sumHealth, sumClothes, sumOther, sumAll;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelperEXP = new DBHelper(this.getContext(), DBHelper.STR_EXP);
         expensesData = new ArrayList<>();
+        dbHelperEXP = new DBHelper(this.getContext(), DBHelper.STR_EXP);
         loadDb();
+        sumAll = 0;
+        sumProduct = 0;
+        sumZKH = 0;
+        sumHealth = 0;
+        sumClothes = 0;
+        sumOther = 0;
+        for (Expense i : expensesData){
+            switch (i.getType()){
+                case "Продукты":
+                    sumProduct += i.getSumma();
+                    break;
+                case "ЖКХ":
+                    sumZKH += i.getSumma();
+                    break;
+                case "Здоровье":
+                    sumHealth += i.getSumma();
+                    break;
+                case "Одежда":
+                    sumClothes += i.getSumma();
+                    break;
+                case "Другое":
+                    sumOther += i.getSumma();
+                    break;
+            }
+            sumAll += i.getSumma();
+        }
     }
 
     @Override
@@ -45,11 +72,27 @@ public class ExpensesDiagrammFragment extends Fragment {
         chart = view.findViewById(R.id.chart_exp);
 
         ArrayList<PieEntry> yVals = new ArrayList<>();
-        yVals.add (new PieEntry (28.6f, "нарушение"));
-        yVals.add (new PieEntry (71.3f, "Нет нарушений"));  // Здесь происходит инициализация данных в диаграмме
+        if (sumProduct != 0) {
+            yVals.add(new PieEntry((float) sumProduct / sumAll, "Продукты"));
+        }
+        if (sumZKH != 0) {
+            yVals.add(new PieEntry((float) sumZKH / sumAll, "ЖКХ"));
+        }
+        if (sumHealth != 0) {
+            yVals.add(new PieEntry((float) sumHealth / sumAll, "Здоровье"));
+        }
+        if (sumClothes != 0) {
+            yVals.add(new PieEntry((float) sumClothes / sumAll, "Одежда"));
+        }
+        if (sumOther != 0) {
+            yVals.add(new PieEntry((float) sumOther / sumAll, "Другое"));
+        }         // Здесь происходит инициализация данных в диаграмме
 
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(Color.parseColor("#4A92FC"));
+        colors.add(Color.parseColor("#05fa3a"));
+        colors.add(Color.parseColor("#f6fa05"));
+        colors.add(Color.parseColor("#fa05f2"));
         colors.add(Color.parseColor("#ee6e55"));   // Цвета диаграммы
 
         PieDataSet pieDataSet = new PieDataSet(yVals, "");
