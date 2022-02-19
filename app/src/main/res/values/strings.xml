@@ -4,7 +4,7 @@
     <string name="inc_sum">Сумма доходов за месяц</string>
     <string name="sum_exp">Сумма расходов за месяц</string>
     <string name="back_button">Back</string>
-    <string name="start_login">###ВХОД###</string>
+    <string name="start_login">Вход</string>
     <string name="e_mail">E-mail</string>
     <string name="password">Password</string>
     <string name="lets_in">Войти</string>
