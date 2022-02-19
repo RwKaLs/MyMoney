@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 
 public class ExpensesListFragment extends Fragment {
+
     DBHelper dbHelperEXP;
     ArrayList<Expense> expenses = new ArrayList<>();
 

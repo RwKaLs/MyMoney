@@ -1,8 +1,11 @@
 package com.example.incomes_and_other;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,10 +33,20 @@ public class IncomesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TextView tv_date = holder.itemView.findViewById(R.id.DateListItem);
         TextView tv_sum = holder.itemView.findViewById(R.id.SumListItem);
-        TextView tv_type = holder.itemView.findViewById(R.id.TypeListItem);
+        ImageView iV = holder.itemView.findViewById(R.id.TypeListItem);
         tv_date.setText(String.valueOf(incomes.get(position).getData()));
         tv_sum.setText(String.valueOf(incomes.get(position).getSumma()));
-        tv_type.setText(String.valueOf(incomes.get(position).getType()));
+
+        Bitmap bm_sal = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_money_hand);
+        Bitmap bm_gift = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.app_icon);
+        Bitmap bm_other = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_dotes);
+        if (incomes.get(position).getType().equals("Зарплата")){
+            iV.setImageBitmap(bm_sal);
+        } else if (incomes.get(position).getType().equals("Подарок")) {
+            iV.setImageBitmap(bm_gift);
+        } else if (incomes.get(position).getType().equals("Другое")){
+            iV.setImageBitmap(bm_other);
+        }
     }
 
     @Override

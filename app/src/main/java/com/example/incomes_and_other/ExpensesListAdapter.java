@@ -1,7 +1,10 @@
 package com.example.incomes_and_other;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,10 +32,22 @@ public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TextView tv_date = holder.itemView.findViewById(R.id.DateListItem);
         TextView tv_sum = holder.itemView.findViewById(R.id.SumListItem);
-        TextView tv_type = holder.itemView.findViewById(R.id.TypeListItem);
+        ImageView iV = holder.itemView.findViewById(R.id.TypeListItem);
         tv_date.setText(String.valueOf(expenses.get(position).getData()));
         tv_sum.setText(String.valueOf(expenses.get(position).getSumma()));
-        tv_type.setText(String.valueOf(expenses.get(position).getType()));
+
+        Bitmap bm_prod = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_products);
+        Bitmap bm_cloth = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_clothes);
+        Bitmap bm_health = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_health);
+
+        if (expenses.get(position).getType().equals("Продукты")){
+            iV.setImageBitmap(bm_prod);
+        } else if (expenses.get(position).getType().equals("Одежда")) {
+            iV.setImageBitmap(bm_cloth);
+        } else if (expenses.get(position).getType().equals("Здоровье")){
+            iV.setImageBitmap(bm_health);
+        }
+
     }
 
     @Override
