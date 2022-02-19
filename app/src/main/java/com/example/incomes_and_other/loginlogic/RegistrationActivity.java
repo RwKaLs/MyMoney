@@ -16,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.incomes_and_other.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -26,7 +24,6 @@ public class RegistrationActivity extends AppCompatActivity {
     TextView tvInfo;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private DatabaseReference dbRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +53,6 @@ public class RegistrationActivity extends AppCompatActivity {
                                 currentUser = mAuth.getCurrentUser();
                             }
                             //User mUser = new User(currentUser.getUid());
-                            dbRef.child(currentUser.getUid()).child("История").setValue("");
                             Intent iToLogin = new Intent(RegistrationActivity.this, LoginActivity.class);
                             iToLogin.putExtra("LOGIN", email);
                             iToLogin.putExtra("PASSWORD", password);
@@ -84,7 +80,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private void setFirebase(){
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        dbRef = FirebaseDatabase.getInstance("https://exxx-cacff-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
     }
     public static boolean hasConnection(final Context context)
     {

@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void setFirebase(){
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut(); // for test login
+        mAuth.signOut();
         currentUser = mAuth.getCurrentUser();
     }
     private void initElements(){

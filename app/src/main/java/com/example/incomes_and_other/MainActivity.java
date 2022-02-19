@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.incomes_and_other.loginlogic.LoginActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinnerInc, spinnerExp;
     SharedPreferences isAccount; // for saving userId
     DBHelper dbHelperINC, dbHelperEXP;
+    private DatabaseReference dbRef;
     int isIn; // is User in account
     String uId;
     private final String ISIN = "ISUSER";
@@ -61,8 +65,11 @@ public class MainActivity extends AppCompatActivity {
             if (hasConnection(this)) {
                 Intent iLog = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(iLog);
+            } else {
+                Toast.makeText(this, "Нет подключения к Интернету", Toast.LENGTH_LONG).show();
             }
         }
+        loadData();
         setContentView(R.layout.activity_main);
         initElements();
 
@@ -139,6 +146,11 @@ public class MainActivity extends AppCompatActivity {
                 contentValues.put(DBHelper.KEY_TYPE, type);
                 databaseInc.insert(DBHelper.STR_INC, null, contentValues);
                 loadDb();
+                if (hasConnection(this)) {
+                    saveFBINC(date, summa, type);
+                }
+                edDateInc.getText().clear();
+                edSumInc.getText().clear();
             } else {
                 Toast.makeText(this, "Неверный ввод!", Toast.LENGTH_LONG).show();
             }
@@ -154,10 +166,27 @@ public class MainActivity extends AppCompatActivity {
                 contentValues.put(DBHelper.KEY_TYPE, type);
                 databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
                 loadDb();
+                if (hasConnection(this)) {
+                    saveFBEXP(date, summa, type);
+                }
+                edDateExp.getText().clear();
+                edSumExp.getText().clear();
             } else {
                 Toast.makeText(this, "Неверный ввод!", Toast.LENGTH_LONG).show();
             }
         }
+    }
+    private void saveFBINC(String date, int summa, String type){
+        dbRef = FirebaseDatabase.getInstance("https://exxx-cacff-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
+        Time now = new Time();
+        now.setToNow();
+        dbRef.child(uId).child("Incomes").child(now.toString()).setValue(new Income(date, summa, type));
+    }
+    private void saveFBEXP(String date, int summa, String type){
+        dbRef = FirebaseDatabase.getInstance("https://exxx-cacff-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
+        Time now = new Time();
+        now.setToNow();
+        dbRef.child(uId).child("Expenses").child(now.toString()).setValue(new Expense(date, summa, type));
     }
     // now just for incomes
     @SuppressLint("Recycle")
