@@ -3,13 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".IncomesExcelFragment">
 
-    <TextView
-        android:id="@+id/textView6"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:text="Импорт"
-        android:textAlignment="center"
-        android:textSize="34sp" />
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/allbutton"
+            android:backgroundTint="@color/text_color"
+            android:text="Экспортировать доходы в .CSV"
+            android:layout_marginBottom="300sp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

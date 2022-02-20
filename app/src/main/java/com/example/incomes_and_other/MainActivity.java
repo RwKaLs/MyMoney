@@ -15,7 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,21 +27,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button toInc, toExp, toSettings, saveInc, saveExp;
+    Button toInc, toExp, saveInc, saveExp;
+    ImageButton toSettings;
     EditText edSumInc, edSumExp, edDateInc, edDateExp;
     ArrayList<Income> incomesData; // get it from DB
     ArrayList<Expense> expensesData; // get it from DB
     Spinner spinnerInc, spinnerExp;
-    SharedPreferences isAccount; // for saving userId
-    DBHelper dbHelperINC, dbHelperEXP;
+    TextView tv_Balance;
+    int balance;
+    SharedPreferences isAccount; // for saving userId and balance
     private DatabaseReference dbRef;
     int isIn; // is User in account
     String uId;
     private final String ISIN = "ISUSER";
     private final String SPUID = "UID";
+    private final String BALANCE = "BALANCE";
     String userID = "LALALA";
 
     @Override
@@ -52,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor saveAcc = isAccount.edit();
             saveAcc.clear();
             saveAcc.putInt(ISIN, 0);
+            saveAcc.putInt(BALANCE, 0);
+            saveAcc.putString(SPUID, "");
             saveAcc.apply();
             SQLiteDatabase sqlINC = incOut.getWritableDatabase();
             SQLiteDatabase sqlEXP = expOut.getWritableDatabase();
@@ -59,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
             sqlEXP.delete(DBHelper.STR_EXP, null, null);
             Intent reloadSout = new Intent(MainActivity.this, MainActivity.class);
             startActivity(reloadSout);
+        }
+        if (getIntent().getIntExtra("NEWBALANCE", -1000000) != -1000000){
+            balance = getIntent().getIntExtra("NEWBALANCE", -1000000);
+            SharedPreferences.Editor saveAcc = isAccount.edit();
+            saveAcc.putInt(BALANCE, balance);
+            saveAcc.apply();
         }
         if (getIntent().getStringExtra("USER") != null){
             userID = getIntent().getStringExtra("USER");
@@ -115,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         saveExp.setOnClickListener(onClickListener);
     }
 
+    @SuppressLint("SetTextI18n")
     private void initElements(){
         toInc = findViewById(R.id.btn_toInc);
         toExp = findViewById(R.id.btn_toExp);
@@ -129,56 +144,89 @@ public class MainActivity extends AppCompatActivity {
         spinnerExp = findViewById(R.id.spinner_Exp);
         incomesData = new ArrayList<>();
         expensesData = new ArrayList<>();
-        dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
-        dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
-        loadDb();
-
+        tv_Balance = findViewById(R.id.tv_Balance);
+        double infl = 9.5; // will get from FireBase
+        @SuppressLint("DefaultLocale") String show1 = String.format("%.2f", balance * (100 - (Math.pow(infl, (1.0/12.0)))) / 100);
+        @SuppressLint("DefaultLocale") String show2 = String.format("%.2f", balance * (100 - (Math.pow(infl, (0.25)))) / 100);
+        @SuppressLint("DefaultLocale") String show3 = String.format("%.2f", balance * (100 - (Math.pow(infl, (0.5)))) / 100);
+        @SuppressLint("DefaultLocale") String show4 = String.format("%.2f", balance * (100 - infl) / 100);
+        tv_Balance.setText("Баланс : " + balance + "\nЧерез 1 мес: " + show1 + "\nЧерез 3 мес: " + show2 + "\nЧерез 6 мес: " + show3 + "\nЧерез год: " + show4);
     }
 
     private void loadData(){
         isAccount = getPreferences(MODE_PRIVATE);
         isIn = isAccount.getInt(ISIN, 0);
         uId = isAccount.getString(SPUID, "");
+        balance = isAccount.getInt(BALANCE, 0);
     }
 
+    @SuppressLint("SetTextI18n")
     private void saveInDb(int typeOp){
         if (typeOp == 0){
             if (!String.valueOf(edSumInc.getText()).equals("") && !String.valueOf(edDateInc.getText()).equals("")){
-                String date = String.valueOf(edDateInc.getText());
-                int summa = Integer.parseInt(String.valueOf(edSumInc.getText()));
-                String type = String.valueOf(spinnerInc.getSelectedItem());
-                SQLiteDatabase databaseInc = dbHelperINC.getWritableDatabase();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(DBHelper.KEY_DATE, date);
-                contentValues.put(DBHelper.KEY_SUMMA, summa);
-                contentValues.put(DBHelper.KEY_TYPE, type);
-                databaseInc.insert(DBHelper.STR_INC, null, contentValues);
-                loadDb();
-                if (hasConnection(this)) {
-                    saveFBINC(date, summa, type);
+                if (String.valueOf(edDateInc.getText()).matches("\\d{2}-\\d{2}-\\d{4}")){
+                    if (Double.parseDouble(String.valueOf(edSumInc.getText())) % 1 == 0){
+                        String date = String.valueOf(edDateInc.getText());
+                        int summa = Integer.parseInt(String.valueOf(edSumInc.getText()));
+                        String type = String.valueOf(spinnerInc.getSelectedItem());
+                        edDateInc.getText().clear();
+                        edSumInc.getText().clear();
+                        balance += summa;
+                        SharedPreferences.Editor saveAcc = isAccount.edit();
+                        saveAcc.putInt(BALANCE, balance);
+                        saveAcc.apply();
+                        tv_Balance.setText("Баланс : " + balance);
+                        DBHelper dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
+                        SQLiteDatabase databaseInc = dbHelperINC.getWritableDatabase();
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(DBHelper.KEY_DATE, date);
+                        contentValues.put(DBHelper.KEY_SUMMA, summa);
+                        contentValues.put(DBHelper.KEY_TYPE, type);
+                        databaseInc.insert(DBHelper.STR_INC, null, contentValues);
+                        if (hasConnection(this)) {
+                            saveFBINC(date, summa, type);
+                        }
+                    } else {
+                        Toast.makeText(this, "Некорректная сумма!", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Некорректная дата!", Toast.LENGTH_LONG).show();
                 }
-                edDateInc.getText().clear();
-                edSumInc.getText().clear();
             } else {
                 Toast.makeText(this, "Неверный ввод!", Toast.LENGTH_LONG).show();
             }
         } else if (typeOp == 1){
             if (!String.valueOf(edSumExp.getText()).equals("") && !String.valueOf(edDateExp.getText()).equals("")){
-                String date = String.valueOf(edDateExp.getText());
-                int summa = Integer.parseInt(String.valueOf(edSumExp.getText()));
-                String type = String.valueOf(spinnerExp.getSelectedItem());
-                SQLiteDatabase databaseExp = dbHelperEXP.getWritableDatabase();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(DBHelper.KEY_DATE, date);
-                contentValues.put(DBHelper.KEY_SUMMA, summa);
-                contentValues.put(DBHelper.KEY_TYPE, type);
-                databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
-                loadDb();
-                if (hasConnection(this)) {
-                    saveFBEXP(date, summa, type);
+                if (String.valueOf(edDateExp.getText()).matches("\\d{2}-\\d{2}-\\d{4}")) {
+                    if (Double.parseDouble(String.valueOf(edSumExp.getText())) % 1 == 0) {
+                        if (!String.valueOf(edSumExp.getText()).equals("") && !String.valueOf(edDateExp.getText()).equals("")) {
+                            String date = String.valueOf(edDateExp.getText());
+                            int summa = Integer.parseInt(String.valueOf(edSumExp.getText()));
+                            String type = String.valueOf(spinnerExp.getSelectedItem());
+                            edDateExp.getText().clear();
+                            edSumExp.getText().clear();
+                            balance -= summa;
+                            SharedPreferences.Editor saveAcc = isAccount.edit();
+                            saveAcc.putInt(BALANCE, balance);
+                            saveAcc.apply();
+                            tv_Balance.setText("Баланс : " + balance);
+                            DBHelper dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
+                            SQLiteDatabase databaseExp = dbHelperEXP.getWritableDatabase();
+                            ContentValues contentValues = new ContentValues();
+                            contentValues.put(DBHelper.KEY_DATE, date);
+                            contentValues.put(DBHelper.KEY_SUMMA, summa);
+                            contentValues.put(DBHelper.KEY_TYPE, type);
+                            databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
+                            if (hasConnection(this)) {
+                                saveFBEXP(date, summa, type);
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "Некорректная сумма!", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Некорректная дата!", Toast.LENGTH_LONG).show();
                 }
-                edDateExp.getText().clear();
-                edSumExp.getText().clear();
             } else {
                 Toast.makeText(this, "Неверный ввод!", Toast.LENGTH_LONG).show();
             }
@@ -186,19 +234,18 @@ public class MainActivity extends AppCompatActivity {
     }
     private void saveFBINC(String date, int summa, String type){
         dbRef = FirebaseDatabase.getInstance("https://exxx-cacff-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
-        Time now = new Time();
-        now.setToNow();
+        Date now = new Date();
         dbRef.child(uId).child("Incomes").child(now.toString()).setValue(new Income(date, summa, type));
     }
     private void saveFBEXP(String date, int summa, String type){
         dbRef = FirebaseDatabase.getInstance("https://exxx-cacff-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
-        Time now = new Time();
-        now.setToNow();
+        Date now = new Date();
         dbRef.child(uId).child("Expenses").child(now.toString()).setValue(new Expense(date, summa, type));
     }
-    // now just for incomes
+    // future
     @SuppressLint("Recycle")
     private void loadDb(){
+        DBHelper dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
         SQLiteDatabase sqlLoad = dbHelperINC.getWritableDatabase();
         Cursor cursor = sqlLoad.query(DBHelper.STR_INC, null, null, null, null, null, null);
         if (cursor.moveToFirst()){
@@ -213,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("DBLOG", "NODATA");
         }
+        DBHelper dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
         sqlLoad = dbHelperEXP.getWritableDatabase();
         cursor = sqlLoad.query(DBHelper.STR_EXP, null, null, null, null, null, null);
         if (cursor.moveToFirst()){

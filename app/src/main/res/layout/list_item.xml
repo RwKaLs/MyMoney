@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="7"
+        android:layout_marginLeft="7sp"
         android:text="Тип"
         android:textColor="@color/text_color" />
 
@@ -17,7 +18,9 @@
         android:id="@+id/DateListItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="7sp"
         android:layout_weight="5"
+        android:textSize="25sp"
         android:textColor="@color/text_color"
         android:text="Дата"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +30,9 @@
         android:id="@+id/SumListItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="5sp"
+        android:textSize="25sp"
+        android:layout_marginRight="7sp"
         android:textColor="@color/text_color"
         android:layout_weight="5"
         android:text="Сумма" />

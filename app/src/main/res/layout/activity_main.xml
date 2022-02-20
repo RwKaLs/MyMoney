@@ -14,7 +14,7 @@
         android:layout_marginTop="40sp"
         android:layout_marginBottom="33sp"
         android:text="@string/balance"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textColor="@color/text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/inc_sum"
-        android:layout_marginTop="30sp"
+        android:layout_marginTop="50sp"
+        android:background="@drawable/allbutton"
+        android:backgroundTint="@color/text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_Balance" />
@@ -33,10 +35,10 @@
         android:id="@+id/tv_Add_Inc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:layout_marginTop="20sp"
         android:textColor="@color/text_color"
-        android:text="Добавить доход: "
+        android:text="@string/append_inc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_toInc" />
@@ -49,30 +51,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_Add_Inc">
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="70sp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:ems="4"
+            android:ems="3"
             android:inputType="number"
-            android:hint="Сумма"
+            android:hint="@string/summahint"
             android:id="@+id/ed_sumInc"/>
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="110sp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:ems="4"
-            android:hint="Дата"
+            android:ems="5"
+            android:hint="@string/datehint"
             android:inputType="date"
             android:id="@+id/ed_dateInc"/>
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:entries="@array/Types_Inc"
             android:id="@+id/spinner_Inc"/>
         <Button
             android:layout_width="50sp"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:text="@string/ok"
+            android:background="@drawable/allbutton"
+            android:backgroundTint="@color/text_color"
             android:id="@+id/save_Inc"/>
     </LinearLayout>
 
@@ -82,6 +86,8 @@
         android:layout_height="wrap_content"
         android:text="@string/sum_exp"
         android:layout_marginTop="30sp"
+        android:background="@drawable/allbutton"
+        android:backgroundTint="@color/text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_newInc" />
@@ -90,9 +96,9 @@
         android:id="@+id/tv_Add_Exp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:textColor="@color/text_color"
-        android:text="Добавить расход: "
+        android:text="@string/append_exp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_toExp" />
@@ -105,38 +111,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_Add_Exp">
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="70sp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:ems="4"
+            android:ems="3"
             android:inputType="number"
-            android:hint="Сумма"
+            android:hint="@string/summahint"
             android:id="@+id/ed_sumExp"/>
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="110sp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:ems="4"
-            android:hint="Дата"
+            android:ems="5"
+            android:hint="@string/datehint"
             android:inputType="date"
             android:id="@+id/ed_dateExp"/>
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:entries="@array/Types_Exp"
             android:id="@+id/spinner_Exp"/>
         <Button
             android:layout_width="50sp"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:background="@drawable/allbutton"
+            android:backgroundTint="@color/text_color"
+            android:text="@string/ok"
             android:id="@+id/save_Exp"/>
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Настройки"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_margin="15sp"
+        android:src="@drawable/settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 

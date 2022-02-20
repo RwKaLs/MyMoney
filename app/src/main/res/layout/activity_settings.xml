@@ -13,6 +13,8 @@
         android:text="Загрузить из облака"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_putInFirebase"
+        android:background="@drawable/allbutton"
+        android:backgroundTint="@color/text_color"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/btn_getFromFirebase"/>
@@ -23,6 +25,8 @@
         android:text="Загрузить в облако"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_logout"
+        android:background="@drawable/allbutton"
+        android:backgroundTint="@color/text_color"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/btn_putInFirebase"/>
@@ -32,6 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="450sp"
         android:text="Выйти"
+        android:background="@drawable/allbutton"
+        android:backgroundTint="@color/text_color"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

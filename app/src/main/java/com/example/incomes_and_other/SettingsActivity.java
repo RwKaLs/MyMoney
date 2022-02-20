@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -34,11 +35,13 @@ public class SettingsActivity extends AppCompatActivity {
     private String userId;
     private ArrayList<Income> incomesData;
     private ArrayList<Expense> expensesData;
+    int balanceret;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        balanceret = 0;
         if (getIntent().getStringExtra("UID") != null){
             userId = getIntent().getStringExtra("UID");
         }
@@ -70,6 +73,17 @@ public class SettingsActivity extends AppCompatActivity {
         btn_toFB.setOnClickListener(onclck);
         btn_fromFB.setOnClickListener(onclck);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent iToMain = new Intent(SettingsActivity.this, MainActivity.class);
+        if (balanceret != 0){
+            iToMain.putExtra("NEWBALANCE", balanceret);
+        }
+        startActivity(iToMain);
+    }
+
     private void initElements(){
         btn_logout = findViewById(R.id.btn_logout);
         btn_toFB = findViewById(R.id.btn_putInFirebase);
@@ -92,11 +106,13 @@ public class SettingsActivity extends AppCompatActivity {
                 for (DataSnapshot ds: snapshot.child(userId).child("Incomes").getChildren()){
                     Income income = ds.getValue(Income.class);
                     assert income != null;
+                    balanceret += income.getSumma();
                     putINCIntoSQLite(income);
                 }
                 for (DataSnapshot ds: snapshot.child(userId).child("Expenses").getChildren()){
                     Expense expense = ds.getValue(Expense.class);
                     assert expense != null;
+                    balanceret -= expense.getSumma();
                     putEXPIntoSQLite(expense);
                 }
             }
@@ -115,15 +131,12 @@ public class SettingsActivity extends AppCompatActivity {
         fbReference.child(userId).removeValue();
         int j = 0;
         for (Income i: incomesData){
-            Time now = new Time();
-            now.setToNow();
+            Date now = new Date();
             fbReference.child(userId).child("Incomes").child(now + String.valueOf(j)).setValue(i);
             j++;
         }
-        j = 0;
         for (Expense i: expensesData){
-            Time now = new Time();
-            now.setToNow();
+            Date now = new Date();
             fbReference.child(userId).child("Expenses").child(now + String.valueOf(j)).setValue(i);
             j++;
         }
@@ -147,6 +160,7 @@ public class SettingsActivity extends AppCompatActivity {
         databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
     }
 
+    @SuppressLint("Recycle")
     private void getFromSQLite(){
         SQLiteDatabase sqlLoad = dbHelperINC.getWritableDatabase();
         Cursor cursor = sqlLoad.query(DBHelper.STR_INC, null, null, null, null, null, null);

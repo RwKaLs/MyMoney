@@ -26,7 +26,7 @@ public class IncomesDiagrammFragment extends Fragment {
     private PieChart chart;
     private DBHelper dbHelperINC;
     private ArrayList<Income> incomesData;
-    int sumAll, sumSalary, sumPresent, sumOther;
+    int sumSalary, sumPresent, sumOther;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,6 @@ public class IncomesDiagrammFragment extends Fragment {
         incomesData = new ArrayList<>();
         dbHelperINC = new DBHelper(this.getContext(), DBHelper.STR_INC);
         loadDb();
-        sumAll = 0;
         sumSalary = 0;
         sumPresent = 0;
         sumOther = 0;
@@ -50,7 +49,6 @@ public class IncomesDiagrammFragment extends Fragment {
                     sumOther += i.getSumma();
                     break;
             }
-            sumAll += i.getSumma();
         }
     }
 
@@ -64,19 +62,19 @@ public class IncomesDiagrammFragment extends Fragment {
 
         ArrayList<PieEntry> yVals = new ArrayList<>();
         if (sumSalary != 0) {
-            yVals.add(new PieEntry((float) sumSalary / sumAll, "Зарплата"));
+            yVals.add(new PieEntry(sumSalary, "Зарплата"));
         }
         if (sumPresent != 0) {
-            yVals.add(new PieEntry((float) sumPresent / sumAll, "Подарок"));    // Здесь происходит инициализация данных в диаграмме
+            yVals.add(new PieEntry(sumPresent, "Подарок"));    // Здесь происходит инициализация данных в диаграмме
         }
         if (sumOther != 0) {
-            yVals.add(new PieEntry((float) sumOther / sumAll, "Другое"));
+            yVals.add(new PieEntry(sumOther, "Другое"));
         }
 
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.parseColor("#4A92FC"));
-        colors.add(Color.parseColor("#05fa3a"));    //TODO: поменять синий на другой, сливается с фоном
-        colors.add(Color.parseColor("#ee6e55"));   // Цвета диаграммы
+        colors.add(Color.parseColor("#ff7f01"));
+        colors.add(Color.parseColor("#00ff01"));
+        colors.add(Color.parseColor("#4b0082"));   // Цвета диаграммы
 
         PieDataSet pieDataSet = new PieDataSet(yVals, "");
         pieDataSet.setColors(colors);

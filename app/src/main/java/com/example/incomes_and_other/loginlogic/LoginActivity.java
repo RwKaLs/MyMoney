@@ -8,14 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.incomes_and_other.MainActivity;
 import com.example.incomes_and_other.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -68,15 +64,12 @@ public class LoginActivity extends AppCompatActivity {
         String password = String.valueOf(edPassword.getText());
         tv_wrong.setText("Вход...");
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
         mAuth.signInWithEmailAndPassword(login, password).addOnCompleteListener(task -> {
             currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
                 Intent iToMain = new Intent(LoginActivity.this, MainActivity.class);
                 iToMain.putExtra("USER", currentUser.getUid());
                 startActivity(iToMain);
-            } else {
-                tv_wrong.setText("Неверный логин или пароль!");
             }
         });
         currentUser = mAuth.getCurrentUser();

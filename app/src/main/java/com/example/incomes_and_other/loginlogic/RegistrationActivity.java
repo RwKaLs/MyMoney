@@ -11,13 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.incomes_and_other.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -46,9 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         } else if (!isValidEmail(email)) {
                             tvInfo.setText("Неверный формат почты!");
                         } else {
-                            mAuth.signOut();
                             mAuth.createUserWithEmailAndPassword(email, password);
-                            mAuth.signOut();
                             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                                 currentUser = mAuth.getCurrentUser();
                                 Intent iToLogin = new Intent(RegistrationActivity.this, LoginActivity.class);
@@ -56,12 +50,6 @@ public class RegistrationActivity extends AppCompatActivity {
                                 iToLogin.putExtra("PASSWORD", password);
                                 startActivity(iToLogin);
                             });
-                            currentUser = mAuth.getCurrentUser();
-                            while (currentUser == null){
-                                mAuth.signOut();
-                                mAuth.signInWithEmailAndPassword(email, password);
-                                currentUser = mAuth.getCurrentUser();
-                            }
                             //User mUser = new User(currentUser.getUid());
                             Intent iToLogin = new Intent(RegistrationActivity.this, LoginActivity.class);
                             iToLogin.putExtra("LOGIN", email);

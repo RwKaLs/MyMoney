@@ -26,7 +26,7 @@ public class ExpensesDiagrammFragment extends Fragment {
     private PieChart chart;
     private DBHelper dbHelperEXP;
     private ArrayList<Expense> expensesData;
-    int sumProduct, sumZKH, sumHealth, sumClothes, sumOther, sumAll;
+    int sumProduct, sumZKH, sumHealth, sumClothes, sumOther;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,6 @@ public class ExpensesDiagrammFragment extends Fragment {
         expensesData = new ArrayList<>();
         dbHelperEXP = new DBHelper(this.getContext(), DBHelper.STR_EXP);
         loadDb();
-        sumAll = 0;
         sumProduct = 0;
         sumZKH = 0;
         sumHealth = 0;
@@ -58,7 +57,6 @@ public class ExpensesDiagrammFragment extends Fragment {
                     sumOther += i.getSumma();
                     break;
             }
-            sumAll += i.getSumma();
         }
     }
 
@@ -73,23 +71,23 @@ public class ExpensesDiagrammFragment extends Fragment {
 
         ArrayList<PieEntry> yVals = new ArrayList<>();
         if (sumProduct != 0) {
-            yVals.add(new PieEntry((float) sumProduct / sumAll, "Продукты"));
+            yVals.add(new PieEntry(sumProduct, "Продукты"));
         }
         if (sumZKH != 0) {
-            yVals.add(new PieEntry((float) sumZKH / sumAll, "ЖКХ"));
+            yVals.add(new PieEntry(sumZKH, "ЖКХ"));
         }
         if (sumHealth != 0) {
-            yVals.add(new PieEntry((float) sumHealth / sumAll, "Здоровье"));
+            yVals.add(new PieEntry(sumHealth, "Здоровье"));
         }
         if (sumClothes != 0) {
-            yVals.add(new PieEntry((float) sumClothes / sumAll, "Одежда"));
+            yVals.add(new PieEntry(sumClothes, "Одежда"));
         }
         if (sumOther != 0) {
-            yVals.add(new PieEntry((float) sumOther / sumAll, "Другое"));
+            yVals.add(new PieEntry(sumOther, "Другое"));
         }         // Здесь происходит инициализация данных в диаграмме
 
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.parseColor("#4A92FC"));
+        colors.add(Color.parseColor("#4b0082"));
         colors.add(Color.parseColor("#05fa3a"));
         colors.add(Color.parseColor("#f6fa05"));
         colors.add(Color.parseColor("#fa05f2"));

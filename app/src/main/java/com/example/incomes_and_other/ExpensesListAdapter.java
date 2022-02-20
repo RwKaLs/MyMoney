@@ -39,15 +39,32 @@ public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Bitmap bm_prod = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_products);
         Bitmap bm_cloth = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_clothes);
         Bitmap bm_health = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_health);
+        Bitmap bm_firewater = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.firewater);
+        Bitmap fum = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.game_fun);
+        Bitmap other = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_dotes);
 
-        if (expenses.get(position).getType().equals("Продукты")){
-            iV.setImageBitmap(bm_prod);
-        } else if (expenses.get(position).getType().equals("Одежда")) {
-            iV.setImageBitmap(bm_cloth);
-        } else if (expenses.get(position).getType().equals("Здоровье")){
-            iV.setImageBitmap(bm_health);
+        if (expenses.size() > position && expenses.get(position).getData() != null && expenses.get(position).getSumma() != 0 && expenses.get(position).getType() != null) {
+            switch (expenses.get(position).getType()) {
+                case "Продукты":
+                    iV.setImageBitmap(bm_prod);
+                    break;
+                case "Одежда":
+                    iV.setImageBitmap(bm_cloth);
+                    break;
+                case "Здоровье":
+                    iV.setImageBitmap(bm_health);
+                    break;
+                case "ЖКХ":
+                    iV.setImageBitmap(bm_firewater);
+                    break;
+                case "Развлечения":
+                    iV.setImageBitmap(fum);
+                    break;
+                case "Другое":
+                    iV.setImageBitmap(other);
+                    break;
+            }
         }
-
     }
 
     @Override

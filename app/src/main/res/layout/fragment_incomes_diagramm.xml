@@ -8,13 +8,6 @@
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chart_inc"
         android:layout_width="match_parent"
-        android:layout_height="531dp" />
+        android:layout_height="600sp" />
 
-    <Button
-        android:id="@+id/reset_button_exp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:gravity="right|center_horizontal"
-        android:text="Обновить" />
 </FrameLayout>
