@@ -182,28 +182,17 @@ public class MainActivity extends AppCompatActivity {
                         String date = String.valueOf(edDateInc.getText());
                         int summa = Integer.parseInt(String.valueOf(edSumInc.getText()));
                         String type = String.valueOf(spinnerInc.getSelectedItem());
-
                         switch (type){
-                            case ("Продукты"):
-                                type = PRODUCTS;
+                            case ("Зарплата"):
+                                type = SALARY;
                                 break;
-                            case ("ЖКХ"):
-                                type = ZKH;
-                                break;
-                            case ("Здоровье"):
-                                type = HEALTH;
-                                break;
-                            case ("Одежда"):
-                                type = CLOTHES;
-                                break;
-                            case ("Развлечения"):
-                                type = ENTERTAINMENT;
+                            case ("Подарок"):
+                                type = PRESENT;
                                 break;
                             case ("Другое"):
                                 type = OTHER;
                                 break;
                         }
-
                         edDateInc.getText().clear();
                         edSumInc.getText().clear();
                         balance += summa;
@@ -217,9 +206,9 @@ public class MainActivity extends AppCompatActivity {
                         contentValues.put(DBHelper.KEY_DATE, date);
                         contentValues.put(DBHelper.KEY_SUMMA, summa);
                         contentValues.put(DBHelper.KEY_TYPE, type);
-                        //databaseInc.insert(DBHelper.STR_INC, null, contentValues);
-                        databaseInc.execSQL("INSERT INTO " + DBHelper.STR_INC + " (" + DBHelper.KEY_DATE + ", " + DBHelper.KEY_SUMMA + ", " +
-                                DBHelper.KEY_TYPE + ") VALUES(" + date + ", " + summa + ", " + type + ");");
+                        databaseInc.insert(DBHelper.STR_INC, null, contentValues);
+                        //databaseInc.execSQL("INSERT INTO " + DBHelper.STR_INC + " (" + DBHelper.KEY_DATE + ", " + DBHelper.KEY_SUMMA + ", " +
+                                //DBHelper.KEY_TYPE + ") VALUES(" + date + ", " + summa + ", " + type + ");");
                         contentValues.clear();
                         dbHelperINC.close();
                         databaseInc.close();
@@ -243,19 +232,26 @@ public class MainActivity extends AppCompatActivity {
                             String date = String.valueOf(edDateExp.getText());
                             int summa = Integer.parseInt(String.valueOf(edSumExp.getText()));
                             String type = String.valueOf(spinnerExp.getSelectedItem());
-
                             switch (type){
-                                case ("Зарплата"):
-                                    type = SALARY;
+                                case ("Продукты"):
+                                    type = PRODUCTS;
                                     break;
-                                case ("Подарок"):
-                                    type = PRESENT;
+                                case ("ЖКХ"):
+                                    type = ZKH;
+                                    break;
+                                case ("Здоровье"):
+                                    type = HEALTH;
+                                    break;
+                                case ("Одежда"):
+                                    type = CLOTHES;
+                                    break;
+                                case ("Развлечения"):
+                                    type = ENTERTAINMENT;
                                     break;
                                 case ("Другое"):
                                     type = OTHER;
                                     break;
                             }
-
                             edDateExp.getText().clear();
                             edSumExp.getText().clear();
                             balance -= summa;
@@ -269,9 +265,9 @@ public class MainActivity extends AppCompatActivity {
                             contentValues.put(DBHelper.KEY_DATE, date);
                             contentValues.put(DBHelper.KEY_SUMMA, summa);
                             contentValues.put(DBHelper.KEY_TYPE, type);
-                            //databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
-                            databaseExp.execSQL("INSERT INTO " + DBHelper.STR_EXP + " (" + DBHelper.KEY_DATE + ", " + DBHelper.KEY_SUMMA + ", " +
-                                    DBHelper.KEY_TYPE + ") VALUES(" + date + ", " + summa + ", " + type + ");");
+                            databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
+                            //databaseExp.execSQL("INSERT INTO " + DBHelper.STR_EXP + " (" + DBHelper.KEY_DATE + ", " + DBHelper.KEY_SUMMA + ", " +
+                                    //DBHelper.KEY_TYPE + ") VALUES(" + date + ", " + summa + ", " + type + ");");
                             contentValues.clear();
                             dbHelperEXP.close();
                             databaseExp.close();
