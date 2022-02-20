@@ -15,6 +15,12 @@ import java.util.ArrayList;
 public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private final ArrayList<Expense> expenses;
+    private static final String OTHER = "other";
+    private static final String PRODUCTS = "products";
+    private static final String ZKH = "ZKH";
+    private static final String HEALTH = "health";
+    private static final String CLOTHES = "clothes";
+    private static final String ENTERTAINMENT = "entertainment";
 
     ExpensesListAdapter(ArrayList<Expense> expenses) {
         this.expenses = expenses;
@@ -45,22 +51,22 @@ public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         if (expenses.size() > position && expenses.get(position).getData() != null && expenses.get(position).getSumma() != 0 && expenses.get(position).getType() != null) {
             switch (expenses.get(position).getType()) {
-                case "Продукты":
+                case PRODUCTS:
                     iV.setImageBitmap(bm_prod);
                     break;
-                case "Одежда":
+                case CLOTHES:
                     iV.setImageBitmap(bm_cloth);
                     break;
-                case "Здоровье":
+                case HEALTH:
                     iV.setImageBitmap(bm_health);
                     break;
-                case "ЖКХ":
+                case ZKH:
                     iV.setImageBitmap(bm_firewater);
                     break;
-                case "Развлечения":
+                case ENTERTAINMENT:
                     iV.setImageBitmap(fum);
                     break;
-                case "Другое":
+                case OTHER:
                     iV.setImageBitmap(other);
                     break;
             }

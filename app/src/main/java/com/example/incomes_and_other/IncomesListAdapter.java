@@ -15,6 +15,9 @@ import java.util.ArrayList;
 public class IncomesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private final ArrayList<Income> incomes;
+    private static final String SALARY = "salary";
+    private static final String PRESENT = "present";
+    private static final String OTHER = "other";
 
     IncomesListAdapter(ArrayList<Income> incomes) {
         this.incomes = incomes;
@@ -41,13 +44,13 @@ public class IncomesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Bitmap bm_other = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_dotes);
         if (incomes.size() > position && incomes.get(position).getData() != null && incomes.get(position).getSumma() != 0 && incomes.get(position).getType() != null) {
             switch (incomes.get(position).getType()) {
-                case "Зарплата":
+                case SALARY:
                     iV.setImageBitmap(bm_sal);
                     break;
-                case "Подарок":
+                case PRESENT:
                     iV.setImageBitmap(bm_gift);
                     break;
-                case "Другое":
+                case OTHER:
                     iV.setImageBitmap(bm_other);
                     break;
             }
