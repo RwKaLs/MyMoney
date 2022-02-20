@@ -12,7 +12,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -47,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
     private final String SPUID = "UID";
     private final String BALANCE = "BALANCE";
     String userID = "LALALA";
+    private static final String SALARY = "salary";
+    private static final String PRESENT = "present";
+    private static final String OTHER = "other";
+    private static final String PRODUCTS = "products";
+    private static final String ZKH = "ZKH";
+    private static final String HEALTH = "health";
+    private static final String CLOTHES = "clothes";
+    private static final String ENTERTAINMENT = "entertainment";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +138,9 @@ public class MainActivity extends AppCompatActivity {
         toSettings.setOnClickListener(onClickListener);
         saveInc.setOnClickListener(onClickListener);
         saveExp.setOnClickListener(onClickListener);
+
     }
+
 
     @SuppressLint("SetTextI18n")
     private void initElements(){
@@ -169,6 +182,28 @@ public class MainActivity extends AppCompatActivity {
                         String date = String.valueOf(edDateInc.getText());
                         int summa = Integer.parseInt(String.valueOf(edSumInc.getText()));
                         String type = String.valueOf(spinnerInc.getSelectedItem());
+
+                        switch (type){
+                            case ("Продукты"):
+                                type = PRODUCTS;
+                                break;
+                            case ("ЖКХ"):
+                                type = ZKH;
+                                break;
+                            case ("Здоровье"):
+                                type = HEALTH;
+                                break;
+                            case ("Одежда"):
+                                type = CLOTHES;
+                                break;
+                            case ("Развлечения"):
+                                type = ENTERTAINMENT;
+                                break;
+                            case ("Другое"):
+                                type = OTHER;
+                                break;
+                        }
+
                         edDateInc.getText().clear();
                         edSumInc.getText().clear();
                         balance += summa;
@@ -208,6 +243,19 @@ public class MainActivity extends AppCompatActivity {
                             String date = String.valueOf(edDateExp.getText());
                             int summa = Integer.parseInt(String.valueOf(edSumExp.getText()));
                             String type = String.valueOf(spinnerExp.getSelectedItem());
+
+                            switch (type){
+                                case ("Зарплата"):
+                                    type = SALARY;
+                                    break;
+                                case ("Подарок"):
+                                    type = PRESENT;
+                                    break;
+                                case ("Другое"):
+                                    type = OTHER;
+                                    break;
+                            }
+
                             edDateExp.getText().clear();
                             edSumExp.getText().clear();
                             balance -= summa;

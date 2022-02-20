@@ -18,6 +18,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/allbutton"
             android:backgroundTint="@color/text_color"
+            android:onClick="exportExpCsv"
             style="@style/Base.CardView"
             android:text="@string/exp_csv"
             android:layout_marginBottom="300sp"/>

@@ -27,6 +27,9 @@ public class IncomesDiagrammFragment extends Fragment {
     private DBHelper dbHelperINC;
     private ArrayList<Income> incomesData;
     int sumSalary, sumPresent, sumOther;
+    private static final String SALARY = "salary";
+    private static final String PRESENT = "present";
+    private static final String OTHER = "other";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,13 +42,13 @@ public class IncomesDiagrammFragment extends Fragment {
         sumOther = 0;
         for (Income i : incomesData){
             switch (i.getType()){
-                case "Зарплата":
+                case SALARY:
                     sumSalary += i.getSumma();
                     break;
-                case "Подарок":
+                case PRESENT:
                     sumPresent += i.getSumma();
                     break;
-                case "Другое":
+                case OTHER:
                     sumOther += i.getSumma();
                     break;
             }

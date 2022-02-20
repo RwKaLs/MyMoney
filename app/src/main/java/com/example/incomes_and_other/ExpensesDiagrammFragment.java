@@ -26,7 +26,13 @@ public class ExpensesDiagrammFragment extends Fragment {
     private PieChart chart;
     private DBHelper dbHelperEXP;
     private ArrayList<Expense> expensesData;
-    int sumProduct, sumZKH, sumHealth, sumClothes, sumOther;
+    int sumProduct, sumZKH, sumHealth, sumClothes, sumOther, sumEntertainment;
+    private static final String OTHER = "other";
+    private static final String PRODUCTS = "products";
+    private static final String ZKH = "ZKH";
+    private static final String HEALTH = "health";
+    private static final String CLOTHES = "clothes";
+    private static final String ENTERTAINMENT = "entertainment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,21 +45,25 @@ public class ExpensesDiagrammFragment extends Fragment {
         sumHealth = 0;
         sumClothes = 0;
         sumOther = 0;
+        sumEntertainment = 0;
         for (Expense i : expensesData){
             switch (i.getType()){
-                case "Продукты":
+                case PRODUCTS:
                     sumProduct += i.getSumma();
                     break;
-                case "ЖКХ":
+                case ZKH:
                     sumZKH += i.getSumma();
                     break;
-                case "Здоровье":
+                case HEALTH:
                     sumHealth += i.getSumma();
                     break;
-                case "Одежда":
+                case CLOTHES:
                     sumClothes += i.getSumma();
                     break;
-                case "Другое":
+                case ENTERTAINMENT:
+                    sumEntertainment += i.getSumma();
+                    break;
+                case OTHER:
                     sumOther += i.getSumma();
                     break;
             }
@@ -82,6 +92,9 @@ public class ExpensesDiagrammFragment extends Fragment {
         if (sumClothes != 0) {
             yVals.add(new PieEntry(sumClothes, "Одежда"));
         }
+        if (sumEntertainment != 0) {
+            yVals.add(new PieEntry(sumEntertainment, "Развлечения"));
+        }
         if (sumOther != 0) {
             yVals.add(new PieEntry(sumOther, "Другое"));
         }         // Здесь происходит инициализация данных в диаграмме
@@ -91,6 +104,7 @@ public class ExpensesDiagrammFragment extends Fragment {
         colors.add(Color.parseColor("#05fa3a"));
         colors.add(Color.parseColor("#f6fa05"));
         colors.add(Color.parseColor("#fa05f2"));
+        colors.add(Color.parseColor("#f70505"));
         colors.add(Color.parseColor("#ee6e55"));   // Цвета диаграммы
 
         PieDataSet pieDataSet = new PieDataSet(yVals, "");
