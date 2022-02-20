@@ -182,7 +182,12 @@ public class MainActivity extends AppCompatActivity {
                         contentValues.put(DBHelper.KEY_DATE, date);
                         contentValues.put(DBHelper.KEY_SUMMA, summa);
                         contentValues.put(DBHelper.KEY_TYPE, type);
-                        databaseInc.insert(DBHelper.STR_INC, null, contentValues);
+                        //databaseInc.insert(DBHelper.STR_INC, null, contentValues);
+                        databaseInc.execSQL("INSERT INTO " + DBHelper.STR_INC + " (" + DBHelper.KEY_DATE + ", " + DBHelper.KEY_SUMMA + ", " +
+                                DBHelper.KEY_TYPE + ") VALUES(" + date + ", " + summa + ", " + type + ");");
+                        contentValues.clear();
+                        dbHelperINC.close();
+                        databaseInc.close();
                         if (hasConnection(this)) {
                             saveFBINC(date, summa, type);
                         }
@@ -216,7 +221,12 @@ public class MainActivity extends AppCompatActivity {
                             contentValues.put(DBHelper.KEY_DATE, date);
                             contentValues.put(DBHelper.KEY_SUMMA, summa);
                             contentValues.put(DBHelper.KEY_TYPE, type);
-                            databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
+                            //databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
+                            databaseExp.execSQL("INSERT INTO " + DBHelper.STR_EXP + " (" + DBHelper.KEY_DATE + ", " + DBHelper.KEY_SUMMA + ", " +
+                                    DBHelper.KEY_TYPE + ") VALUES(" + date + ", " + summa + ", " + type + ");");
+                            contentValues.clear();
+                            dbHelperEXP.close();
+                            databaseExp.close();
                             if (hasConnection(this)) {
                                 saveFBEXP(date, summa, type);
                             }

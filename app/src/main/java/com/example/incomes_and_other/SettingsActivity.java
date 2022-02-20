@@ -149,6 +149,7 @@ public class SettingsActivity extends AppCompatActivity {
         contentValues.put(DBHelper.KEY_SUMMA, newIncome.getSumma());
         contentValues.put(DBHelper.KEY_TYPE, newIncome.getType());
         databaseInc.insert(DBHelper.STR_INC, null, contentValues);
+        contentValues.clear();
     }
 
     private void putEXPIntoSQLite(Expense newExpense){
@@ -158,6 +159,7 @@ public class SettingsActivity extends AppCompatActivity {
         contentValues.put(DBHelper.KEY_SUMMA, newExpense.getSumma());
         contentValues.put(DBHelper.KEY_TYPE, newExpense.getType());
         databaseExp.insert(DBHelper.STR_EXP, null, contentValues);
+        contentValues.clear();
     }
 
     @SuppressLint("Recycle")
