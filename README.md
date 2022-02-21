@@ -8,6 +8,7 @@
 Приложение для контроля расходов - полезный инструмент, который позволяет контролировать свои траты, следить за своими сбережениями и формировать бюджет.
 ___
 APK: [Download](https://drive.google.com/file/d/1mvVxbcgpO1_T99aRULs7wWXk3i4Ukhmr/view?usp=sharing)
+Video: [YouTube](https://m.youtube.com/watch?v=kh58jBEOu3k&feature=youtu.be)
 
 Над приложением работали: Иванов Прокопий, Меганов Егор, Хачатуров Арсен, Земсков Игорь, Епифанов Егор
 
