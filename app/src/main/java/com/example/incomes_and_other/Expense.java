@@ -1,5 +1,8 @@
 package com.example.incomes_and_other;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class Expense {
     private String data;
     private int summa;
@@ -38,4 +41,5 @@ public class Expense {
     public void setData(String data){
         this.data = data;
     }
+
 }

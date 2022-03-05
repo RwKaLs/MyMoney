@@ -18,6 +18,9 @@
     <string name="append_exp">Добавить расход:</string>
     <string name="append_inc">Добавить доход:</string>
     <string name="exp_csv">Экспортировать расходы в .CSV</string>
+    <string name="exp_xlsx">Экспортировать расходы в .XLSX</string>
+    <string name="inc_csv">Экспортировать доходы в .CSV</string>
+    <string name="inc_xlsx">Экспортировать доходы в .XLSX</string>
     <string-array name="Types_Inc">
         <item>Зарплата</item>
         <item>Подарок</item>

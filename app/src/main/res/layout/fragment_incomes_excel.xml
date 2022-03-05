@@ -11,15 +11,32 @@
         android:layout_height="match_parent">
 
         <Button
+            android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="300sp"
+            android:background="@drawable/allbutton"
+            android:backgroundTint="@color/text_color"
+            android:onClick="onIncXlsx"
+            android:text="@string/inc_xlsx"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.814" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="300sp"
+            android:background="@drawable/allbutton"
+            android:backgroundTint="@color/text_color"
+            android:onClick="onIncCsv"
+            android:text="@string/inc_csv"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/allbutton"
-            android:backgroundTint="@color/text_color"
-            android:text="Экспортировать доходы в .CSV"
-            android:layout_marginBottom="300sp"/>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
