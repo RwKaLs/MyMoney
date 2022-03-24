@@ -1,11 +1,16 @@
 package com.example.incomes_and_other;
 
+import com.univocity.parsers.annotations.Parsed;
+
 import java.io.Serializable;
 
 public class Income implements Serializable {
 
+    @Parsed
     private String data;
+    @Parsed
     private int summa;
+    @Parsed
     private String type;
 
     public Income(){

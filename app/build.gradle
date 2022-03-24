@@ -45,6 +45,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.3'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation platform('com.google.firebase:firebase-bom:29.0.4')
+    implementation files('libs\\poi-3.7.jar')
+    implementation files('libs\\univocity-parsers-2.9.1.jar')
     testImplementation 'junit:junit:'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

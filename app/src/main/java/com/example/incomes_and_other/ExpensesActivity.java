@@ -14,13 +14,31 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.univocity.parsers.csv.CsvRoutines;
+import com.univocity.parsers.csv.CsvWriterSettings;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExpensesActivity extends AppCompatActivity {
 
@@ -70,80 +88,77 @@ public class ExpensesActivity extends AppCompatActivity {
         toast.show();
     }
 
-    public void OnExpXlsx(View view){
-        exportExpXlsx();
+    public void OnExpXlsx(View view) throws IOException {
+        exportExpXlsx(3, 5);
         Toast toast = Toast.makeText(getApplicationContext(),
                 "Успешный (почти) экспорт", Toast.LENGTH_SHORT);
         toast.show();
     }
 
     void exportExpCsv() {
-        //expensesData = new ArrayList<>();
-        //dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
-        //loadDb();
+        expensesData = new ArrayList<>();
+        dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
+        loadDb();
+        CsvWriterSettings settings = new CsvWriterSettings();
+
+        settings.setHeaders("type", "data", "summa");
+
+        File fildir = new File(Environment.getExternalStorageDirectory() + "/Android/media/" + getPackageName());
+        if (!fildir.exists()){
+            fildir.mkdir();
+        }
+        File file = new File(fildir, FILE_NAME_CSV);
         try {
-            File externalAppDir = new File(Environment.getExternalStorageDirectory() + "/Android/media/" + getPackageName());
-            if (!externalAppDir.exists()) {
-                externalAppDir.mkdir();
-            }
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        new CsvRoutines(settings).writeAll(expensesData, Expense.class, file, "type", "data", "summa");
+    }
 
-            File file = new File(externalAppDir , FILE_NAME_CSV);
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public static void exportExpXlsx(int row, int col) throws IOException {
+        try {
+            FileInputStream file = new FileInputStream(Environment.getExternalStorageDirectory().toString() +"Android/media/"+ "expenses.xlsx");
 
-            String text = "WOOORKS!";
-            FileOutputStream outputStream = new FileOutputStream(file);
-            outputStream.write(text.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
+            Sheet sheet = null;
+
+            Workbook workbook = new HSSFWorkbook(file);
+            sheet = workbook.createSheet("Sheet 1");
+            Cell cell = null;
+
+            //Update the value of cell
+
+            cell = sheet.getRow(row).getCell(col);
+            cell.setCellValue("changed");
+
+            file.close();
+
+            FileOutputStream outFile =new FileOutputStream(new File(Environment.getExternalStorageDirectory().toString() +"Android/media/"+ "expenses.xlsx"));
+            workbook.write(outFile);
+            outFile.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    void exportExpXlsx() {
-        //expensesData = new ArrayList<>();
-        //dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
-        //loadDb();
-        try {
-            File externalAppDir = new File(Environment.getExternalStorageDirectory() + "/Android/media/" + getPackageName());
-            if (!externalAppDir.exists()) {
-                externalAppDir.mkdir();
-            }
-
-            File file = new File(externalAppDir , FILE_NAME_XLSX);
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String text = "WOOORKS!";
-            FileOutputStream outputStream = new FileOutputStream(file);
-            outputStream.write(text.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+    @SuppressLint("Recycle")
+    private void loadDb(){
+        SQLiteDatabase sqlLoad = dbHelperEXP.getWritableDatabase();
+        Cursor cursor = sqlLoad.query(DBHelper.STR_EXP, null, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
+            int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
+            int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
+            do {
+                expensesData.add(new Expense(cursor.getString(date), cursor.getInt(summa), cursor.getString(type)));
+                    Log.d("DBLOG", "DATE = " + cursor.getString(date) + " SUMMA = " +
+                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
+            } while (cursor.moveToNext());
+        } else {
+            Log.d("DBLOG", "NODATA");
         }
     }
-
-    //@SuppressLint("Recycle")
-    //private void loadDb(){
-    //    SQLiteDatabase sqlLoad = dbHelperEXP.getWritableDatabase();
-    //    Cursor cursor = sqlLoad.query(DBHelper.STR_EXP, null, null, null, null, null, null);
-    //    if (cursor.moveToFirst()){
-    //        int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
-    //        int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
-    //        int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
-    //        do {
-    //            expensesData.add(new Expense(cursor.getString(date), cursor.getInt(summa), cursor.getString(type)));
-    //                Log.d("DBLOG", "DATE = " + cursor.getString(date) + " SUMMA = " +
-    //                        cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
-    //        } while (cursor.moveToNext());
-    //    } else {
-    //        Log.d("DBLOG", "NODATA");
-    //    }
-    //}
 }

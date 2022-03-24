@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -75,6 +76,7 @@ public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return expenses.size();
+        return 0;
     }
+
 }

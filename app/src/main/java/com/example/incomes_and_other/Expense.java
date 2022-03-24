@@ -1,11 +1,18 @@
 package com.example.incomes_and_other;
 
+import com.univocity.parsers.annotations.Parsed;
+
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Expense {
+
+    @Parsed
     private String data;
+    @Parsed
     private int summa;
+    @Parsed
     private String type;
 
     public Expense(){
@@ -41,5 +48,6 @@ public class Expense {
     public void setData(String data){
         this.data = data;
     }
+
 
 }

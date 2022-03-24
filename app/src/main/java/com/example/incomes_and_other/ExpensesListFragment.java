@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.logging.Filter;
 
 
 public class ExpensesListFragment extends Fragment {
@@ -25,7 +26,7 @@ public class ExpensesListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelperEXP = new DBHelper(this.getContext(), DBHelper.STR_EXP);
+        dbHelperEXP = new DBHelper(this.getContext(), DBHelper.STR_EXP); //TODO: список не отображается, в доходах все нормально
         loadDb();
     }
 
@@ -45,6 +46,7 @@ public class ExpensesListFragment extends Fragment {
         recyclerView.setAdapter(new ExpensesListAdapter(expenses));
         return view;
     }
+
 
     @SuppressLint("Recycle")
     private void loadDb(){
