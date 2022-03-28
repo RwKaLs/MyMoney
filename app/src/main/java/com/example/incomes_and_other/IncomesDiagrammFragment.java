@@ -61,7 +61,7 @@ public class IncomesDiagrammFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_incomes_diagramm, container, false);
 
-        chart = (PieChart)view.findViewById(R.id.chart_inc);
+        chart = view.findViewById(R.id.chart_inc);
 
         ArrayList<PieEntry> yVals = new ArrayList<>();
         if (sumSalary != 0) {

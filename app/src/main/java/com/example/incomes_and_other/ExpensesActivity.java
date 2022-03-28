@@ -1,7 +1,6 @@
 package com.example.incomes_and_other;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,9 +13,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.univocity.parsers.csv.CsvRoutines;
 import com.univocity.parsers.csv.CsvWriterSettings;
 
@@ -25,20 +21,12 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ExpensesActivity extends AppCompatActivity {
 
@@ -75,6 +63,7 @@ public class ExpensesActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    // replace with a button
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(ExpensesActivity.this, MainActivity.class);
@@ -88,7 +77,7 @@ public class ExpensesActivity extends AppCompatActivity {
         toast.show();
     }
 
-    public void OnExpXlsx(View view) throws IOException {
+    public void OnExpXlsx(View view) {
         exportExpXlsx(3, 5);
         Toast toast = Toast.makeText(getApplicationContext(),
                 "Успешный (почти) экспорт", Toast.LENGTH_SHORT);
@@ -116,15 +105,15 @@ public class ExpensesActivity extends AppCompatActivity {
         new CsvRoutines(settings).writeAll(expensesData, Expense.class, file, "type", "data", "summa");
     }
 
-    public static void exportExpXlsx(int row, int col) throws IOException {
+    public static void exportExpXlsx(int row, int col) {
         try {
             FileInputStream file = new FileInputStream(Environment.getExternalStorageDirectory().toString() +"Android/media/"+ "expenses.xlsx");
 
-            Sheet sheet = null;
+            Sheet sheet;
 
             Workbook workbook = new HSSFWorkbook(file);
             sheet = workbook.createSheet("Sheet 1");
-            Cell cell = null;
+            Cell cell;
 
             //Update the value of cell
 
@@ -133,12 +122,10 @@ public class ExpensesActivity extends AppCompatActivity {
 
             file.close();
 
-            FileOutputStream outFile =new FileOutputStream(new File(Environment.getExternalStorageDirectory().toString() +"Android/media/"+ "expenses.xlsx"));
+            FileOutputStream outFile =new FileOutputStream(Environment.getExternalStorageDirectory().toString() +"Android/media/"+ "expenses.xlsx");
             workbook.write(outFile);
             outFile.close();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

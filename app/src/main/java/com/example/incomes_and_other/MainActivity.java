@@ -174,9 +174,11 @@ public class MainActivity extends AppCompatActivity {
     private void saveInDb(int typeOp){
         if (typeOp == 0){
             if (!String.valueOf(edSumInc.getText()).equals("") && !String.valueOf(edDateInc.getText()).equals("")){
-                if (String.valueOf(edDateInc.getText()).matches("\\d{2}-\\d{2}-\\d{4}")){
+                if (String.valueOf(edDateInc.getText()).matches("\\d{2}.\\d{2}.\\d{4}")){
                     if (Double.parseDouble(String.valueOf(edSumInc.getText())) % 1 == 0){
-                        String date = String.valueOf(edDateInc.getText());
+                        String strDate = String.valueOf(edDateInc.getText());
+                        String[] datef = strDate.split("\\.");
+                        String date = datef[2] + "-" + datef[1] + "-" + datef[0];
                         int summa = Integer.parseInt(String.valueOf(edSumInc.getText()));
                         String type = String.valueOf(spinnerInc.getSelectedItem());
                         switch (type){
@@ -196,7 +198,12 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor saveAcc = isAccount.edit();
                         saveAcc.putInt(BALANCE, balance);
                         saveAcc.apply();
-                        tv_Balance.setText("Баланс : " + balance);
+                        double infl = 9.5; // will get from FireBase
+                        @SuppressLint("DefaultLocale") String show1 = String.format("%.2f", balance * (100 - (Math.pow(infl, (1.0/12.0)))) / 100);
+                        @SuppressLint("DefaultLocale") String show2 = String.format("%.2f", balance * (100 - (Math.pow(infl, (0.25)))) / 100);
+                        @SuppressLint("DefaultLocale") String show3 = String.format("%.2f", balance * (100 - (Math.pow(infl, (0.5)))) / 100);
+                        @SuppressLint("DefaultLocale") String show4 = String.format("%.2f", balance * (100 - infl) / 100);
+                        tv_Balance.setText("Баланс : " + balance + "\nЧерез 1 мес: " + show1 + "\nЧерез 3 мес: " + show2 + "\nЧерез 6 мес: " + show3 + "\nЧерез год: " + show4);
                         DBHelper dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
                         SQLiteDatabase databaseInc = dbHelperINC.getWritableDatabase();
                         ContentValues contentValues = new ContentValues();
@@ -223,10 +230,12 @@ public class MainActivity extends AppCompatActivity {
             }
         } else if (typeOp == 1){
             if (!String.valueOf(edSumExp.getText()).equals("") && !String.valueOf(edDateExp.getText()).equals("")){
-                if (String.valueOf(edDateExp.getText()).matches("\\d{2}-\\d{2}-\\d{4}")) {
+                if (String.valueOf(edDateExp.getText()).matches("\\d{2}.\\d{2}.\\d{4}")) {
                     if (Double.parseDouble(String.valueOf(edSumExp.getText())) % 1 == 0) {
                         if (!String.valueOf(edSumExp.getText()).equals("") && !String.valueOf(edDateExp.getText()).equals("")) {
-                            String date = String.valueOf(edDateExp.getText());
+                            String strDate = String.valueOf(edDateExp.getText());
+                            String[] datef = strDate.split("\\.");
+                            String date = datef[2] + "-" + datef[1] + "-" + datef[0];
                             int summa = Integer.parseInt(String.valueOf(edSumExp.getText()));
                             String type = String.valueOf(spinnerExp.getSelectedItem());
                             switch (type){
@@ -255,7 +264,12 @@ public class MainActivity extends AppCompatActivity {
                             SharedPreferences.Editor saveAcc = isAccount.edit();
                             saveAcc.putInt(BALANCE, balance);
                             saveAcc.apply();
-                            tv_Balance.setText("Баланс : " + balance);
+                            double infl = 9.5; // will get from FireBase
+                            @SuppressLint("DefaultLocale") String show1 = String.format("%.2f", balance * (100 - (Math.pow(infl, (1.0/12.0)))) / 100);
+                            @SuppressLint("DefaultLocale") String show2 = String.format("%.2f", balance * (100 - (Math.pow(infl, (0.25)))) / 100);
+                            @SuppressLint("DefaultLocale") String show3 = String.format("%.2f", balance * (100 - (Math.pow(infl, (0.5)))) / 100);
+                            @SuppressLint("DefaultLocale") String show4 = String.format("%.2f", balance * (100 - infl) / 100);
+                            tv_Balance.setText("Баланс : " + balance + "\nЧерез 1 мес: " + show1 + "\nЧерез 3 мес: " + show2 + "\nЧерез 6 мес: " + show3 + "\nЧерез год: " + show4);
                             DBHelper dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
                             SQLiteDatabase databaseExp = dbHelperEXP.getWritableDatabase();
                             ContentValues contentValues = new ContentValues();

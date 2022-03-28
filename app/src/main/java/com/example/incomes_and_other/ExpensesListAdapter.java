@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -40,7 +39,9 @@ public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView tv_date = holder.itemView.findViewById(R.id.DateListItem);
         TextView tv_sum = holder.itemView.findViewById(R.id.SumListItem);
         ImageView iV = holder.itemView.findViewById(R.id.TypeListItem);
-        tv_date.setText(String.valueOf(expenses.get(position).getData()));
+        String[] dateOutf = expenses.get(position).getData().split("-");
+        String dateOut = dateOutf[2] + "." + dateOutf[1] + "." + dateOutf[0];
+        tv_date.setText(dateOut);
         tv_sum.setText(String.valueOf(expenses.get(position).getSumma()));
 
         Bitmap bm_prod = BitmapFactory.decodeResource(holder.itemView.getResources(), R.drawable.m_products);
@@ -76,7 +77,7 @@ public class ExpensesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return 0;
+        return expenses.size();
     }
 
 }

@@ -13,7 +13,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ok">OK</string>
-    <string name="datehint">дд-мм-гггг</string>
+    <string name="datehint">дд.мм.гггг</string>
     <string name="summahint">Сумма</string>
     <string name="append_exp">Добавить расход:</string>
     <string name="append_inc">Добавить доход:</string>

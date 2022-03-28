@@ -13,13 +13,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.opencsv.CSVWriter;
 import com.univocity.parsers.csv.CsvRoutines;
 import com.univocity.parsers.csv.CsvWriterSettings;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -57,6 +55,7 @@ public class IncomesActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    // replace with a button
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(IncomesActivity.this, MainActivity.class);
