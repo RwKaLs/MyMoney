@@ -20,11 +20,16 @@ public class ExpensesListFragment extends Fragment {
 
     DBHelper dbHelperEXP;
     ArrayList<Expense> expenses = new ArrayList<>();
+    int filter_type;
+
+    public ExpensesListFragment(int filter_type){
+        this.filter_type = filter_type;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelperEXP = new DBHelper(this.getContext(), DBHelper.STR_EXP); //TODO: список не отображается, в доходах все нормально
+        dbHelperEXP = new DBHelper(this.getContext(), DBHelper.STR_EXP);
         loadDb();
     }
 
@@ -49,14 +54,28 @@ public class ExpensesListFragment extends Fragment {
     private void loadDb(){
         SQLiteDatabase sqlLoad = dbHelperEXP.getWritableDatabase();
         Cursor cursor = sqlLoad.query(DBHelper.STR_EXP, null, null, null, null, null, null);
+        switch (this.filter_type){
+            case 0:
+                cursor = sqlLoad.query(DBHelper.STR_EXP, null, null, null, null, null, null);
+                break;
+            case 1:
+                cursor = sqlLoad.query(DBHelper.STR_EXP, null, "date > date('now', '-7 days')", null, null, null, null);
+                break;
+            case 2:
+                cursor = sqlLoad.query(DBHelper.STR_EXP, null, "date > date('now', '-1 months')", null, null, null, null);
+                break;
+            case 3:
+                cursor = sqlLoad.query(DBHelper.STR_EXP, null, "date > date('now', '-3 months')", null, null, null, null);
+                break;
+        }
         if (cursor.moveToFirst()){
             int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
             int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
             int type = cursor.getColumnIndex(DBHelper.KEY_TYPE);
             do {
                 expenses.add(new Expense(cursor.getString(date), cursor.getInt(summa), cursor.getString(type)));
-//                    Log.d("HEYFROMSPISOK", "DATE = " + cursor.getString(date) + " SUMMA = " +
-//                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));
+/*                    Log.d("HEYFROMSPISOK", "DATE = " + cursor.getString(date) + " SUMMA = " +
+*                            cursor.getInt(summa) + " TYPE = " + cursor.getString(type));*/
             } while (cursor.moveToNext());
         } else {
             Log.d("DBLOGEXP", "NODATA");

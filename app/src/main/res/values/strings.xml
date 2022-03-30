@@ -21,6 +21,9 @@
     <string name="exp_xlsx">Экспортировать расходы в .XLSX</string>
     <string name="inc_csv">Экспортировать доходы в .CSV</string>
     <string name="inc_xlsx">Экспортировать доходы в .XLSX</string>
+    <string name="seven_days">7 дней</string>
+    <string name="one_month">1 месяц</string>
+    <string name="three_months">3 месяца</string>
     <string-array name="Types_Inc">
         <item>Зарплата</item>
         <item>Подарок</item>

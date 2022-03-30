@@ -35,7 +35,7 @@ public class IncomesActivity extends AppCompatActivity {
     }
 
     public void onListClc(View view) {
-        IncomesListFragment incomesListFragment = new IncomesListFragment();
+        IncomesListFragment incomesListFragment = new IncomesListFragment(0);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.Cont_Inc, incomesListFragment);
         ft.commit();
@@ -52,6 +52,25 @@ public class IncomesActivity extends AppCompatActivity {
         IncomesDiagrammFragment incomesDiagrammFragment = new IncomesDiagrammFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.Cont_Inc, incomesDiagrammFragment);
+        ft.commit();
+    }
+
+    public void onSevenDaysClick(View view){
+        IncomesListFragment incomesListFragment = new IncomesListFragment(1);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.Cont_Inc, incomesListFragment);
+        ft.commit();
+    }
+    public void onOneMonthClick(View view){
+        IncomesListFragment incomesListFragment = new IncomesListFragment(2);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.Cont_Inc, incomesListFragment);
+        ft.commit();
+    }
+    public void onThreeMonthsClick(View view){
+        IncomesListFragment incomesListFragment = new IncomesListFragment(3);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.Cont_Inc, incomesListFragment);
         ft.commit();
     }
 
@@ -75,6 +94,8 @@ public class IncomesActivity extends AppCompatActivity {
                 "Успешный (почти) экспорт", Toast.LENGTH_SHORT);
         toast.show();
     }
+
+
 
     void exportIncCsv() {
         incomesData = new ArrayList<>();

@@ -56,7 +56,26 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     public void onListClc(View view) {
-        ExpensesListFragment expensesListFragment = new ExpensesListFragment();
+        ExpensesListFragment expensesListFragment = new ExpensesListFragment(0);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.Cont_Exp, expensesListFragment);
+        ft.commit();
+    }
+
+    public void onSevenDaysClick(View view){
+        ExpensesListFragment expensesListFragment = new ExpensesListFragment(1);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.Cont_Exp, expensesListFragment);
+        ft.commit();
+    }
+    public void onOneMonthClick(View view){
+        ExpensesListFragment expensesListFragment = new ExpensesListFragment(2);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.Cont_Exp, expensesListFragment);
+        ft.commit();
+    }
+    public void onThreeMonthsClick(View view){
+        ExpensesListFragment expensesListFragment = new ExpensesListFragment(3);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.Cont_Exp, expensesListFragment);
         ft.commit();
