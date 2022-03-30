@@ -135,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
         toSettings.setOnClickListener(onClickListener);
         saveInc.setOnClickListener(onClickListener);
         saveExp.setOnClickListener(onClickListener);
-
     }
 //
 

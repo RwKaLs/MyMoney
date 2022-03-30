@@ -2,10 +2,6 @@ package com.example.incomes_and_other;
 
 import com.univocity.parsers.annotations.Parsed;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public class Expense {
 
     @Parsed

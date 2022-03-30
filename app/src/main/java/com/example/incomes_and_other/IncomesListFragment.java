@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class IncomesListFragment extends Fragment {
 
@@ -48,7 +50,13 @@ public class IncomesListFragment extends Fragment {
     @SuppressLint("Recycle")
     private void loadDb(){
         SQLiteDatabase sqlLoad = dbHelperINC.getWritableDatabase();
-        Cursor cursor = sqlLoad.query(DBHelper.STR_INC, null, null, null, null, null, null);
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date datef = new Date();
+        Cursor cursor = sqlLoad.query(DBHelper.STR_INC, null, "date > date(" + formatter.format(datef) + ", '-7 days')", null, null, null, null);
+                                                                                                               /* менять      ^     на '-1 months' or '-3 months' or '-1 years'
+                                                                                                               * для этого передать флаг при выборе фильтра и менять recyclerview этой выборкой
+                                                                                                               * сделать конструктор, вызывающийся из incomes activity*/
         if (cursor.moveToFirst()){
             int date = cursor.getColumnIndex(DBHelper.KEY_DATE);
             int summa = cursor.getColumnIndex(DBHelper.KEY_SUMMA);
