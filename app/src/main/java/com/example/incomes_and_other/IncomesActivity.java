@@ -16,10 +16,27 @@ import androidx.fragment.app.FragmentTransaction;
 import com.univocity.parsers.csv.CsvRoutines;
 import com.univocity.parsers.csv.CsvWriterSettings;
 
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
+
+import jxl.CellView;
+import jxl.Range;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.format.Colour;
+import jxl.write.Label;
+import jxl.write.WritableCell;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 public class IncomesActivity extends AppCompatActivity {
 
@@ -84,14 +101,14 @@ public class IncomesActivity extends AppCompatActivity {
     public void onIncCsv(View view) {
         exportIncCsv();
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Успешный (почти) экспорт", Toast.LENGTH_SHORT);
+                "Успешный экспорт", Toast.LENGTH_SHORT);
         toast.show();
     }
 
     public void onIncXlsx(View view) {
         exportIncXlsx();
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Успешный (почти) экспорт", Toast.LENGTH_SHORT);
+                "Успешный экспорт", Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -118,24 +135,45 @@ public class IncomesActivity extends AppCompatActivity {
         new CsvRoutines(settings).writeAll(incomesData, Income.class, file, "type", "data", "summa");
     }
 
-    void exportIncXlsx() {
-        try {
-            File externalAppDir = new File(Environment.getExternalStorageDirectory() + "/Android/media/" + getPackageName());
-            if (!externalAppDir.exists()) {
-                externalAppDir.mkdir();
-            }
+    private void exportIncXlsx() {
+        incomesData = new ArrayList<>();
+        dbHelperINC = new DBHelper(this, DBHelper.STR_INC);
+        loadDb();
 
-            File file = new File(externalAppDir , FILE_NAME_XLSX);
+        String csvFile = "incomes.xlsx";
+        File fildir = new File(Environment.getExternalStorageDirectory() + "/Android/media/" + getPackageName());
+        File file = new File(fildir, csvFile);
+        WorkbookSettings wbSettings = new WorkbookSettings();
+        wbSettings.setLocale(new Locale("en", "EN"));
+        try {
+            WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
+
+
             try {
-                file.createNewFile();
-            } catch (IOException e) {
+
+                //Excel sheet name. 0 (number)represents first sheet
+                WritableSheet sheet = workbook.createSheet("sheet1", 0);
+                // column and row title
+                sheet.addCell(new Label(0, 0, "Data"));
+                sheet.addCell(new Label(1, 0, "Type"));
+                sheet.addCell(new Label(2, 0, "Summa"));
+
+
+                for (int i = 0; i < incomesData.size(); i++) {
+                    sheet.addCell(new Label(0, i + 1, incomesData.get(i).getData()));
+                    sheet.addCell(new Label(1, i + 1, incomesData.get(i).getType()));
+                    sheet.addCell(new Label(2, i + 1, String.valueOf(incomesData.get(i).getSumma())));
+
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            String text = "WOOORKS!";
-            FileOutputStream outputStream = new FileOutputStream(file);
-            outputStream.write(text.getBytes());
-            outputStream.close();
+
+            //closing cursor
+            workbook.write();
+            workbook.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,4 +194,5 @@ public class IncomesActivity extends AppCompatActivity {
             Log.d("DBLOG", "NODATA");
         }
     }
+
 }

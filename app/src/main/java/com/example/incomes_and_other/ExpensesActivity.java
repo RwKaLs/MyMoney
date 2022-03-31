@@ -19,13 +19,19 @@ import com.univocity.parsers.csv.CsvWriterSettings;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
+
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 public class ExpensesActivity extends AppCompatActivity {
 
@@ -91,18 +97,18 @@ public class ExpensesActivity extends AppCompatActivity {
     public void OnExpCsv(View view){
         exportExpCsv();
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Успешный (почти) экспорт", Toast.LENGTH_SHORT);
+                "Успешный экспорт", Toast.LENGTH_SHORT);
         toast.show();
     }
 
     public void OnExpXlsx(View view) {
-        exportExpXlsx(3, 5);
+        exportExpXlsx();
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Успешный (почти) экспорт", Toast.LENGTH_SHORT);
+                "Успешный экспорт", Toast.LENGTH_SHORT);
         toast.show();
     }
 
-    void exportExpCsv() {
+    private void exportExpCsv() {
         expensesData = new ArrayList<>();
         dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
         loadDb();
@@ -123,28 +129,46 @@ public class ExpensesActivity extends AppCompatActivity {
         new CsvRoutines(settings).writeAll(expensesData, Expense.class, file, "type", "data", "summa");
     }
 
-    public static void exportExpXlsx(int row, int col) {
+    private void exportExpXlsx() {
+        expensesData = new ArrayList<>();
+        dbHelperEXP = new DBHelper(this, DBHelper.STR_EXP);
+        loadDb();
+
+        String csvFile = "expenses.xlsx";
+        File fildir = new File(Environment.getExternalStorageDirectory() + "/Android/media/" + getPackageName());
+        File file = new File(fildir, csvFile);
+        WorkbookSettings wbSettings = new WorkbookSettings();
+        wbSettings.setLocale(new Locale("en", "EN"));
         try {
-            FileInputStream file = new FileInputStream(Environment.getExternalStorageDirectory().toString() +"Android/media/"+ "expenses.xlsx");
+            WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
 
-            Sheet sheet;
 
-            Workbook workbook = new HSSFWorkbook(file);
-            sheet = workbook.createSheet("Sheet 1");
-            Cell cell;
+            try {
 
-            //Update the value of cell
+                //Excel sheet name. 0 (number)represents first sheet
+                WritableSheet sheet = workbook.createSheet("sheet1", 0);
+                // column and row title
+                sheet.addCell(new Label(0, 0, "Data"));
+                sheet.addCell(new Label(1, 0, "Type"));
+                sheet.addCell(new Label(2, 0, "Summa"));
 
-            cell = sheet.getRow(row).getCell(col);
-            cell.setCellValue("changed");
 
-            file.close();
+                for (int i = 0; i < expensesData.size(); i++) {
+                    sheet.addCell(new Label(0, i + 1, expensesData.get(i).getData()));
+                    sheet.addCell(new Label(1, i + 1, expensesData.get(i).getType()));
+                    sheet.addCell(new Label(2, i + 1, String.valueOf(expensesData.get(i).getSumma())));
 
-            FileOutputStream outFile =new FileOutputStream(Environment.getExternalStorageDirectory().toString() +"Android/media/"+ "expenses.xlsx");
-            workbook.write(outFile);
-            outFile.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        } catch (IOException e) {
+
+            //closing cursor
+            workbook.write();
+            workbook.close();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
